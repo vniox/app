@@ -14,6 +14,7 @@ const $ = function (query) {
   return document.querySelector(query);
 };
 
+/*
 const access = [
   {
     id: Date.now(),
@@ -34,6 +35,9 @@ const access = [
     name: "Conectar",
   },
 ];
+*/
+
+const access = [];
 
 document.querySelector(".form_v823x1l").addEventListener("submit", (e) => {
   e.preventDefault();
