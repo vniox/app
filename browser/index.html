@@ -4,38 +4,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta id="meta-theme-color" name="theme-color" content="#000000">
-    <title>Webview</title>
-    <link rel="stylesheet" href="style.css?nv=1741644038050">
+    <title>Webview Browser</title>
+    <link rel="stylesheet" href="style.css?nv=1751844127247">
 </head>
 
 <body>
-
     <div id="app">
-
-        <form class="form_v823x1l" autocomplete="off">
-            <input type="search" name="search" placeholder="buscar" data-key-focus="" data-not-keydown>
-            <button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-search">
+        <header class="header_4z00p5yvqf">
+            <form class="form_mm89zypi6w" tag-form-search autocomplete="off">
+                <input type="search" placeholder="Buscar" name="search">
+            </form>
+            <button tag-open-modal-form>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-plus">
                     <path
-                        d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z">
+                        d="M23,11H13V1a1,1,0,0,0-1-1h0a1,1,0,0,0-1,1V11H1a1,1,0,0,0-1,1H0a1,1,0,0,0,1,1H11V23a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1V13H23a1,1,0,0,0,1-1h0A1,1,0,0,0,23,11Z">
                     </path>
                 </svg>
             </button>
-        </form>
-        <hr class="hr_j8ry8nv">
-        <div class="div_dtxhy4m">
+        </header>
+        <div class="div_bowab85sqm">
+            <div class="div_a03cvrhpdi" tag-content-items>
 
-            <div id="itemTrueBase" class="div_suhyjvh"></div>
-            <hr class="hr_j8ry8nv">
-            <div id="itemTrue" class="div_suhyjvh"></div>
+                <!-- <a class="a_q9xwdm6psh" href="#" tag-open-options>
+                    <div>
+                        <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY=s96-rw"
+                            alt="">
+                    </div>
+                    <span>Youtube</span>
+                </a>
 
+                <a class="a_q9xwdm6psh" href="#" tag-open-options>
+                    <div>
+                        <img src="https://play-lh.googleusercontent.com/KCMTYuiTrKom4Vyf0G4foetVOwhKWzNbHWumV73IXexAIy5TTgZipL52WTt8ICL-oIo=s64-rw"
+                            alt="">
+                    </div>
+                    <span>Facebook</span>
+                </a>
+
+                <a class="a_q9xwdm6psh" tag-open-options>
+                    <div>
+                        <img src="https://play-lh.googleusercontent.com/aHDUtNWgtEhbstpo58TrxNMaaWp310EVnjh6VfOVQILEqWEOJzPKw0v7H73PS_JDNQ=w480-h960-rw"
+                            alt="">
+                    </div>
+                    <span>Tiktok</span>
+                </a> -->
+
+            </div>
         </div>
-
     </div>
 
 
-    <script src="script.js?nv=1741644038050"></script>
+    <div id="modal-form" style="display: none;">
+        <form tag-form-add autocomplete="off">
+            <h2>Agregar</h2>
+            <input type="text" name="name" placeholder="Nombre">
+            <input type="text" name="url" placeholder="url">
+            <button>Agregar</button>
+        </form>
+    </div>
+
+    <div id="modal-options" style="display: none;">
+        <div class="container">
+            <button tag-action-shorcut>
+                <small>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-apps-add">
+                        <path
+                            d="M7,0H4A4,4,0,0,0,0,4V7a4,4,0,0,0,4,4H7a4,4,0,0,0,4-4V4A4,4,0,0,0,7,0ZM9,7A2,2,0,0,1,7,9H4A2,2,0,0,1,2,7V4A2,2,0,0,1,4,2H7A2,2,0,0,1,9,4Z">
+                        </path>
+                        <path
+                            d="M7,13H4a4,4,0,0,0-4,4v3a4,4,0,0,0,4,4H7a4,4,0,0,0,4-4V17A4,4,0,0,0,7,13Zm2,7a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V17a2,2,0,0,1,2-2H7a2,2,0,0,1,2,2Z">
+                        </path>
+                        <path
+                            d="M20,13H17a4,4,0,0,0-4,4v3a4,4,0,0,0,4,4h3a4,4,0,0,0,4-4V17A4,4,0,0,0,20,13Zm2,7a2,2,0,0,1-2,2H17a2,2,0,0,1-2-2V17a2,2,0,0,1,2-2h3a2,2,0,0,1,2,2Z">
+                        </path>
+                        <path d="M14,7h3v3a1,1,0,0,0,2,0V7h3a1,1,0,0,0,0-2H19V2a1,1,0,0,0-2,0V5H14a1,1,0,0,0,0,2Z">
+                        </path>
+                    </svg>
+                </small>
+                <span>Añadir al Inicio</span>
+            </button>
+            <button tag-action-edit>
+                <small>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-pencil">
+                        <path
+                            d="M22.853,1.148a3.626,3.626,0,0,0-5.124,0L1.465,17.412A4.968,4.968,0,0,0,0,20.947V23a1,1,0,0,0,1,1H3.053a4.966,4.966,0,0,0,3.535-1.464L22.853,6.271A3.626,3.626,0,0,0,22.853,1.148ZM5.174,21.122A3.022,3.022,0,0,1,3.053,22H2V20.947a2.98,2.98,0,0,1,.879-2.121L15.222,6.483l2.3,2.3ZM21.438,4.857,18.932,7.364l-2.3-2.295,2.507-2.507a1.623,1.623,0,1,1,2.295,2.3Z">
+                        </path>
+                    </svg>
+                </small>
+                <span>Editar</span>
+            </button>
+            <button tag-action-delete>
+                <small>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-trash">
+                        <path
+                            d="M21,4H17.9A5.009,5.009,0,0,0,13,0H11A5.009,5.009,0,0,0,6.1,4H3A1,1,0,0,0,3,6H4V19a5.006,5.006,0,0,0,5,5h6a5.006,5.006,0,0,0,5-5V6h1a1,1,0,0,0,0-2ZM11,2h2a3.006,3.006,0,0,1,2.829,2H8.171A3.006,3.006,0,0,1,11,2Zm7,17a3,3,0,0,1-3,3H9a3,3,0,0,1-3-3V6H18Z">
+                        </path>
+                        <path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18Z"></path>
+                        <path d="M14,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"></path>
+                    </svg>
+                </small>
+                <span>Eliminar</span>
+            </button>
+
+        </div>
+    </div>
+
+    <script src="script.js?nv=1751844127247"></script>
 </body>
 
 </html>

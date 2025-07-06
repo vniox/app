@@ -1,207 +1,175 @@
-if (!localStorage.getItem("ls-array-history")) {
-  localStorage.setItem("ls-array-history", JSON.stringify([]));
+const uuid = "uuid-0197e1ba-b4e4-7563-8ece-0f6908bdcfdb";
+let id = null;
+
+function $(query) {
+  return document.querySelector(query) || document.createElement("div");
 }
 
-const array = JSON.parse(localStorage.getItem("ls-array-history"));
-let $focus = null;
-let keydown = false;
+function mapped(array = []) {
+  $("[tag-content-items]").innerHTML = array
+    .map((_) => {
+      return /*html*/ `
+        <a class="a_q9xwdm6psh" href="${_.url}" data-id="${
+        _.id
+      }" tag-open-options>
+            <div>
+                <img src="" alt="">
+                <p>${_.name[0].toUpperCase()}</p>
+            </div>
+            <span>${_.name}</span>
+        </a>
+        `;
+    })
+    .join("");
 
-if (!Array.isArray(array)) {
-  localStorage.setItem("ls-array-history", JSON.stringify([]));
+  return array;
 }
 
-const $ = function (query) {
-  return document.querySelector(query);
-};
+function crearCanvasConLetra(letra, tamanoFuente) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
 
-/*
-const access = [
-  {
-    id: Date.now(),
-    icon: "./img/icon/movie.png",
-    url: "https://app-on.github.io/webview/streaming/",
-    name: "Movies",
-  },
-  {
-    id: Date.now(),
-    icon: "./img/icon/movie-tv.png",
-    url: "https://m-vnio.github.io/webview/",
-    name: "Movies TV",
-  },
-  {
-    id: Date.now(),
-    icon: "./img/icon/conexion.png",
-    url: "https://m-vnio.github.io/share-webview/",
-    name: "Conectar",
-  },
-];
-*/
+  // Tamaño fijo del canvas
+  canvas.width = 192;
+  canvas.height = 192;
 
-const access = [];
+  // Fondo blanco
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-document.querySelector(".form_v823x1l").addEventListener("submit", (e) => {
-  e.preventDefault();
+  // Letra negra, negrita y sans-serif
+  ctx.fillStyle = "black";
+  ctx.font = `bold ${tamanoFuente}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-  try {
-    new URL(e.currentTarget.search.value);
-    window.location.href = e.currentTarget.search.value;
+  // Dibujar letra centrada
+  ctx.fillText(letra, canvas.width / 2, canvas.height / 2);
 
-    const array = JSON.parse(localStorage.getItem("ls-array-history"));
-    localStorage.setItem(
-      "ls-array-history",
-      JSON.stringify(
-        array.concat({
-          id: Date.now(),
-          url: e.currentTarget.search.value,
-        })
-      )
-    );
-  } catch (error) {
-    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(
-      e.currentTarget.search.value
-    )}`;
-  }
-});
+  return canvas;
+}
 
-$("#itemTrue").addEventListener("contextmenu", (e) => {
-  e.preventDefault();
-
-  const $a = e.target.closest("a");
-
-  if ($a) {
-    if (confirm("¿Eliminar?")) {
-      const array = JSON.parse(localStorage.getItem("ls-array-history"));
-      localStorage.setItem(
-        "ls-array-history",
-        JSON.stringify(array.filter((object) => object.id != $a.dataset.id))
-      );
-
-      $a.remove();
-    }
-  }
-});
-
-$("#itemTrueBase").innerHTML = access
-  .map((object) => {
-    return `
-      <a href="${object.url}" class="div_f97rdbt" data-id="${object.id}" data-key-focus>
-        <div>
-          <img src="${object.icon}" alt="" >
-        </div>
-        <p>${object.name}</p>
-      </a>
-    `;
-  })
-  .join("");
-
-$("#itemTrue").innerHTML = array
-  .map((object) => {
-    const _ = {
-      encodeUrl: `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
-        object.url
-      )}&sz=64`,
-    };
-
-    return `
-      <a href="${object.url}" class="div_f97rdbt" data-id="${object.id}" data-key-focus>
-        <div>
-          <img src="${_.encodeUrl}" alt="">
-        </div>
-        <p>${object.url}</p>
-      </a>
-    `;
-  })
-  .join("");
-
-Array.from($("#itemTrue").children).forEach((child) => {
-  console.log(child.querySelector("img"));
-
-  child.querySelector("img").addEventListener(
-    "load",
-    (e) => {
-      if (e.target.naturalWidth == 16) {
-        e.target.src = "./img/icon/browser.png";
-      }
-    },
-    { once: true }
+if (!localStorage.getItem(uuid)) {
+  localStorage.setItem(
+    uuid,
+    JSON.stringify([
+      { id: 1, name: "Youtube", url: "https://www.youtube.com" },
+      { id: 2, name: "Facebook", url: "https://www.facebook.com" },
+      { id: 3, name: "Tiktok", url: "https://www.tiktok.com" },
+    ])
   );
+}
+
+const items = JSON.parse(localStorage.getItem(uuid));
+mapped(items);
+
+$("[tag-open-modal-form]").addEventListener("click", () => {
+  $("#modal-form").style.display = "";
+  id = null;
 });
 
-addEventListener("keydown", (e) => {
-  if (keydown) return;
-
-  if (e.target.closest("[data-not-keydown]") != null && e.key != "ArrowDown") {
-    return;
-  }
-
-  if (document.activeElement.getAttribute("data-key-focus") == null) {
-    $focus.focus();
-
-    return;
-  }
-
-  if (e.key == "Enter") {
-    e.preventDefault();
-
-    keydown = true;
-    const $a = $focus;
-
-    const timeout = setTimeout(() => {
-      const array = JSON.parse(localStorage.getItem("ls-array-history"));
-      localStorage.setItem(
-        "ls-array-history",
-        JSON.stringify(array.filter((object) => object.id != $a.dataset.id))
-      );
-
-      $a.remove();
-    }, 300);
-
-    const callback = () => {
-      clearTimeout(timeout);
-      keydown = false;
-
-      if ($a.parentElement) e.target.click();
-    };
-
-    addEventListener("keyup", callback, { once: true });
-  }
-
-  const focus = Array.from(document.querySelectorAll("[data-key-focus]"));
-  const index = focus.findIndex((focus) => focus == $focus);
-
-  if (e.key == "ArrowRight") {
-    if (focus[index + 1]) {
-      focus[index + 1].focus();
-    }
-  }
-
-  if (e.key == "ArrowLeft") {
-    if (focus[index - 1]) {
-      focus[index - 1].focus();
-    }
-  }
-
-  if (e.key == "ArrowUp") {
-    if (focus[index - 1]) {
-      focus[index - 1].focus();
-    }
-  }
-
-  if (e.key == "ArrowDown") {
-    if (focus[index + 1]) {
-      focus[index + 1].focus();
-    }
+$("#modal-form").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) {
+    $("#modal-form").style.display = "none";
   }
 });
 
-addEventListener("focusin", (e) => {
-  if (e.target.closest("[data-key-focus]")) {
-    $focus = e.target;
-  }
-});
-
-addEventListener("contextmenu", (e) => {
+$("[tag-content-items]").addEventListener("contextmenu", (e) => {
   e.preventDefault();
+
+  const a = e.target.closest("a");
+
+  if (a) {
+    $("#modal-options").style.display = "";
+    id = a.dataset.id;
+  }
 });
 
-document.querySelector("[data-key-focus]").focus();
+$("#modal-options").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) {
+    $("#modal-options").style.display = "none";
+  }
+});
+
+$("[tag-action-delete]").addEventListener("click", () => {
+  const items = JSON.parse(localStorage.getItem(uuid));
+  const items2 = items.filter((item) => item.id != id);
+
+  localStorage.setItem(uuid, JSON.stringify(items2));
+  mapped(items2);
+  $("#modal-options").style.display = "none";
+});
+
+$("[tag-action-edit]").addEventListener("click", () => {
+  const items = JSON.parse(localStorage.getItem(uuid));
+  const item = items.find((item) => item.id == id);
+  $("#modal-options").style.display = "none";
+  $("#modal-form").style.display = "";
+
+  const form = $("[tag-form-add]");
+  form.name.value = item.name;
+  form.url.value = item.url;
+});
+
+$("[tag-form-search]").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  location.href = `https://www.google.com/search?q=${encodeURIComponent(
+    e.currentTarget.search.value.trim()
+  )}`;
+});
+
+$("[tag-form-add]").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const items = JSON.parse(localStorage.getItem(uuid));
+
+  if (id == null) {
+    const items2 = [
+      ...items,
+      {
+        id: Date.now(),
+        name: e.currentTarget.name.value,
+        url: e.currentTarget.url.value,
+      },
+    ];
+
+    localStorage.setItem(uuid, JSON.stringify(items2));
+    mapped(items2);
+  } else {
+    const items2 = items.map((item) => {
+      if (item.id == id) {
+        return {
+          ...item,
+          name: e.currentTarget.name.value,
+          url: e.currentTarget.url.value,
+        };
+      }
+
+      return item;
+    });
+
+    localStorage.setItem(uuid, JSON.stringify(items2));
+    mapped(items2);
+  }
+
+  $("#modal-form").style.display = "none";
+});
+
+$("[tag-action-shorcut]").addEventListener("click", () => {
+  if (typeof Android !== "undefined" && Android.createShortcut) {
+    const items = JSON.parse(localStorage.getItem(uuid));
+    const item = items.find((item) => item.id == id);
+
+    try {
+      new URL(item.url);
+      const canvas = crearCanvasConLetra(item.name[0].toUpperCase(), 100);
+      Android.createShortcut(item.name, item.url, canvas.toDataURL());
+      alert("Agregado");
+    } catch (error) {
+      alert("La url no es valida");
+    }
+  }
+});
+
+// document.body.append(crearCanvasConLetra("A", 100));

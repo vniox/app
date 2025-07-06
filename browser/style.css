@@ -8,57 +8,203 @@
 body {
   background: #000;
   color: #fff;
+  user-select: none;
 
   font-family: sans-serif;
-  user-select: none;
 }
 
 svg {
   width: 15px;
   height: 15px;
 
-  fill: #fff;
+  fill: #ffffff;
+}
+
+button {
+  background: none;
+  outline: none;
+  border: none;
+
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  background: none;
+  border: none;
+  outline: none;
 }
 
 #app {
   position: fixed;
-  inset: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
-
   overflow: hidden;
+}
 
-  & * {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+.header_4z00p5yvqf {
+  width: 100%;
+  height: 50px;
+
+  gap: 5px;
+  padding: 5px;
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form_mm89zypi6w {
+  flex: 1;
+  height: 40px;
+
+  input {
+    width: 100%;
+    height: 100%;
+    padding: 0 15px;
+
+    border-radius: 40px;
+
+    background: rgb(181 178 178 / 0.2);
+    color: inherit;
+
+    border: none;
+    outline: none;
   }
 }
 
-.form_v823x1l {
-  width: 100%;
-  height: 60px;
-  display: flex;
-  padding: 10px;
-  gap: 10px;
+.div_bowab85sqm {
+  flex: 1;
+  overflow-y: auto;
+}
 
-  input {
-    all: unset;
-    flex: 1;
+.div_a03cvrhpdi {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr));
+  padding: 15px;
+  gap: 15px;
+}
 
-    color: #fff;
+.a_q9xwdm6psh {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
 
+  color: inherit;
+  text-decoration: none;
+
+  & div {
+    width: 50px;
+    aspect-ratio: 1/1;
+    overflow: hidden;
     border-radius: 15px;
-    padding-left: 10px;
 
-    &::-webkit-search-cancel-button {
-      display: none;
-    }
+    background: #fff;
+    color: #000;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  & button {
-    all: unset;
+  & img {
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
 
+  & span {
+    font-size: 13px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
+
+#modal-form {
+  position: fixed;
+  inset: 0;
+
+  backdrop-filter: blur(5px);
+
+  display: flex;
+  align-items: end;
+  padding: 10px;
+
+  form {
+    margin: 0 auto;
+    width: min(100%, 400px);
+    background: rgb(181 178 178 / 0.2);
+    display: grid;
+    padding: 15px;
+    gap: 15px;
+
+    border-radius: 15px;
+  }
+
+  input {
+    background: rgb(181 178 178 / 0.2);
+    height: 50px;
+    border-radius: 15px;
+    padding: 0 15px;
+
+    color: #fff;
+  }
+
+  button {
+    background: #ffffff;
+    color: #000000;
+    width: 100%;
+
+    height: 50px;
+    border-radius: 15px;
+  }
+}
+
+#modal-options {
+  position: fixed;
+  inset: 0;
+
+  backdrop-filter: blur(5px);
+
+  display: flex;
+  align-items: end;
+  padding: 10px;
+
+  .container {
+    width: 100%;
+    background: rgb(181 178 178 / 0.2);
+    display: grid;
+
+    border-radius: 15px;
+
+    margin: 0 auto;
+    width: min(100%, 400px);
+  }
+
+  button {
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+    gap: 5px;
+
+    color: inherit;
+  }
+
+  small {
     width: 40px;
     height: 40px;
 
@@ -67,84 +213,8 @@ svg {
     align-items: center;
   }
 
-  & svg {
-    fill: #fff;
-  }
-}
-
-.div_dtxhy4m {
-  flex: 1;
-
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-.div_suhyjvh {
-  /* margin-bottom: auto; */
-
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr));
-
-  padding: 10px;
-  gap: 10px;
-}
-
-.div_f97rdbt {
-  all: unset;
-  box-sizing: border-box;
-
-  display: grid;
-  text-align: center;
-  justify-items: center;
-
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  padding: 10px;
-  gap: 10px;
-
-  &:focus {
-    background: rgb(255 255 255 / 0.3);
-  }
-
-  & div {
-    width: 50px;
-    height: 50px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(255 255 255 / 0.3);
-
-    border-radius: 15px;
-  }
-
-  & img {
-    width: 30px;
-    height: 30px;
-
-    pointer-events: none;
-  }
-
-  & p {
+  span {
     flex: 1;
-    word-break: break-all;
-    overflow: hidden;
-
-    margin: auto 0;
-    font-size: 12px;
-
-    max-height: 40px;
+    text-align: left;
   }
-}
-
-.hr_j8ry8nv {
-  background: rgb(255 255 255 / 0.3);
-  border: none;
-  margin: auto;
-
-  width: calc(100% - 20px);
-  height: 1.5px;
 }
