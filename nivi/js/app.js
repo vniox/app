@@ -11754,6 +11754,11 @@ var config = () => {
         "video_time_get",
         "video_time_set",
         "chat",
+        "user-list",
+        "emoji",
+        "video_user",
+        "data",
+        "disconnect"
       ]),
     },
     elements: {
@@ -11840,4 +11845,5 @@ addEventListener("DOMContentLoaded", () => {
   addEventListener("click", () => sessionStorage.setItem("click", true), {
     once: true,
   });
+
 });
