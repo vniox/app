@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <meta id="meta-theme-color" name="theme-color" content="#000000">
+
+    <title>Note - keyboard</title>
+
+    <link rel="stylesheet" href="./css/app.css?nv=1728007028838">
+    <style id="style-app"></style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        class MatchRoutes {
+            constructor() {
+                this._params = {};
+                this._set = [];
+            }
+
+            __hash = (string) => {
+                const array = string.split("/");
+
+                if (!array[0] || array[0][0] != "#") {
+                    array.unshift("#");
+                };
+
+                array[0] = "#";
+                return array.filter(Boolean);
+            };
+
+            get = (match = "") => {
+                this._params = {};
+
+                const hash = this.__hash(match);
+                const exists = this._set.find((set) => {
+
+                    if (set.all != -1) {
+
+                        const stringFirst = hash.join("/").concat("/")
+                        const stringSecond = set.hash.arrayString.slice(0, set.all).join("/").concat("/")
+
+                        return stringFirst.startsWith(stringSecond)
+                    }
+
+                    if (set.hash.arrayObject.length == hash.length) {
+                        const valid = hash.every((name, i) => {
+                            if (set.hash.arrayObject[i].status) {
+                                this._params[set.hash.arrayObject[i].name] = name;
+                                return true;
+                            }
+
+                            return name === set.hash.arrayObject[i].name;
+                        });
+
+                        return valid;
+                    }
+
+                    return false;
+                });
+
+
+                return {
+                    status: Boolean(exists),
+                    data: exists?.data ?? null,
+                    params: this.params(),
+                }
+
+            };
+
+            set = (key, array = []) => {
+                this._set = array.map((object) => {
+                    const array = this.__hash(`#/${object[key]}`);
+                    let all = -1;
+
+                    return {
+                        data: object,
+                        hash: {
+                            arrayObject: array.map((string, index) => {
+                                if (all == -1 && string == "*") all = index;
+
+                                return {
+                                    status: string.startsWith(":"),
+                                    name: string.startsWith(":") ? string.slice(1) : string,
+                                };
+                            }),
+                            arrayString: array,
+                        },
+                        all,
+                    };
+                });
+            };
+
+            params = (key = null) => {
+                return { ...this._params }
+            };
+        };
+    </script>
+
+    <script>
+        addEventListener("dblclick", () => {
+            location.reload();
+        });
+    </script>
+
+    <script src="https://use-resources.github.io/js/v3/cdn/functions.js?nv=1728007028838"></script>
+    <script src="https://use-resources.github.io/js/v3/cdn/classes.js?nv=1728007028838"></script>
+
+    <script src="https://use-resources.github.io/js/v1/cdn/class-element-draw.js"></script>
+
+    <script src="./js/svgIcon.js"></script>
+    <script src="./js/prototype.js"></script>
+    <script src="./js/app.js?nv=1728007028838"></script>
+</body>
+
+</html>
