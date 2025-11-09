@@ -1,4 +1,4 @@
-const uuid = "uuid-0197e1ba-b4e4-7563-8ece-0f6908bdcfdb";
+const uuid = "uuid-019a6ad5-350f-720c-8efc-50ac7245878b";
 let id = null;
 
 function $(query) {
@@ -53,9 +53,11 @@ if (!localStorage.getItem(uuid)) {
   localStorage.setItem(
     uuid,
     JSON.stringify([
-      { id: 1, name: "Youtube", url: "https://www.youtube.com" },
-      { id: 2, name: "Facebook", url: "https://www.facebook.com" },
-      { id: 3, name: "Tiktok", url: "https://www.tiktok.com" },
+      {
+        id: 1,
+        name: "Peliculas",
+        url: "https://vniox.github.io/app/streaming",
+      },
     ])
   );
 }
@@ -114,9 +116,16 @@ $("[tag-action-edit]").addEventListener("click", () => {
 $("[tag-form-search]").addEventListener("submit", (e) => {
   e.preventDefault();
 
-  location.href = `https://www.google.com/search?q=${encodeURIComponent(
-    e.currentTarget.search.value.trim()
-  )}`;
+  const url = e.currentTarget.search.value.trim();
+
+  try {
+    new URL(url);
+    location.href = url;
+  } catch (error) {
+    location.href = `https://www.google.com/search?q=${encodeURIComponent(
+      url
+    )}`;
+  }
 });
 
 $("[tag-form-add]").addEventListener("submit", (e) => {
@@ -171,5 +180,13 @@ $("[tag-action-shorcut]").addEventListener("click", () => {
     }
   }
 });
+
+// function android(callback) {
+//   if (typeof Android !== "undefined" && Android) {
+//     try {
+//       callback?.(Android);
+//     } catch (error) {}
+//   }
+// }
 
 // document.body.append(crearCanvasConLetra("A", 100));
