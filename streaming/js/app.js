@@ -168,6 +168,26 @@ var dataApp = () => {
         }
       } catch (error) {}
     },
+    promises: {
+      genresMovies: new Promise((resolve) => {
+        fetch(
+          "https://api.themoviedb.org/3/genre/movie/list?api_key=ec4ff1b6182572d3e74735e74ca3a8ef&language=es-ES"
+        )
+          .then((res) => res.json())
+          .then((json) => {
+            resolve(Array.isArray(json?.genres) ? json?.genres : []);
+          });
+      }),
+      genresSeries: new Promise((resolve) => {
+        fetch(
+          "https://api.themoviedb.org/3/genre/tv/list?api_key=ec4ff1b6182572d3e74735e74ca3a8ef&language=es-ES"
+        )
+          .then((res) => res.json())
+          .then((json) => {
+            resolve(Array.isArray(json?.genres) ? json?.genres : []);
+          });
+      }),
+    },
   };
 
   return exp;
@@ -2019,13 +2039,14 @@ var animeId = () => {
         myVal.params.id,
         item.getAttribute("data-episode")
       ).then((videos) => {
+        console.log(videos);
         $elements.itemTrueOptionVideos.innerHTML = Object.entries(videos)
           .map((data) => {
             let show = true;
 
             return data[1]
               .map((video, index) => {
-                if (index == 0) return "";
+                // if (index == 0) return "";
                 if (!["sw"].includes(video.server)) return "";
 
                 const visibility = show ? "" : "display:none";
@@ -2528,21 +2549,6 @@ var gendersAnime = [
   "Yuri",
 ];
 
-var gendersPelicula = [
-  "Accion",
-  "Aventura",
-  "Animacion",
-  "Ciencia ficcion",
-  "Crimen",
-  "Drama",
-  "Familia",
-  "Fantasia",
-  "Misterio",
-  "Romance",
-  "Suspense",
-  "Terror",
-];
-
 var itemData = (p = {}) => {
   const f = window.MyResourceFunction;
 
@@ -2755,7 +2761,8 @@ var inicio = () => {
     myVal.get.dataTrue().then(myVal.set.dataTrue);
   });
 
-  myApp.events($elements["form-filter-type"], "change", async () => {
+  myApp.events($elements["form-filter-type"], "change", async (e) => {
+    e.preventDefault();
     const type = $elements["form-filter-type"].key.value;
 
     $elements.itemTrue.innerHTML = "";
@@ -2774,17 +2781,36 @@ var inicio = () => {
           };
         })
       );
+
+      myVal.signals.dataTrueGender.value = array;
     }
 
     if (type == 2) {
-      array.push(
-        ...gendersPelicula.map((string) => {
-          return {
-            value: string.split(" ").join("-").toLocaleLowerCase(),
-            string,
-          };
-        })
-      );
+      myApp.promises.genresMovies.then((genres) => {
+        array.push(
+          ...genres.map((gender) => {
+            return {
+              value: gender.id,
+              string: gender.name,
+            };
+          })
+        );
+        myVal.signals.dataTrueGender.value = array;
+      });
+    }
+
+    if (type == 3) {
+      myApp.promises.genresSeries.then((genres) => {
+        array.push(
+          ...genres.map((gender) => {
+            return {
+              value: gender.id,
+              string: gender.name,
+            };
+          })
+        );
+        myVal.signals.dataTrueGender.value = array;
+      });
     }
 
     if (type == 4) {
@@ -2824,7 +2850,7 @@ var inicio = () => {
       );
     }
 
-    myVal.signals.dataTrueGender.value = array;
+    // myVal.signals.dataTrueGender.value = array;
     myVal.get.dataTrue().then(myVal.set.dataTrue);
   });
 
@@ -2917,16 +2943,21 @@ var inicio = () => {
           $elements.itemTrue.querySelectorAll("[data-item]").length / 20
         ) + 1;
 
-      // const gender = $elements.selectGender.value;
+      const gender = $elements.selectGender.value;
 
       const queries = mrf.encodeQueryObject({
         api_key: "ec4ff1b6182572d3e74735e74ca3a8ef",
         language: "es-ES",
         include_adult: "false",
         page,
+        with_genres: gender,
       });
 
-      fetch(`https://api.themoviedb.org/3/movie/popular?${queries}`)
+      const url = Boolean(gender)
+        ? `https://api.themoviedb.org/3/discover/movie?${queries}`
+        : `https://api.themoviedb.org/3/movie/popular?${queries}`;
+
+      fetch(url)
         .then((res) => res.json())
         .then((json) => {
           resolve(
@@ -2978,14 +3009,21 @@ var inicio = () => {
           $elements.itemTrue.querySelectorAll("[data-item]").length / 20
         ) + 1;
 
+      const gender = $elements.selectGender.value;
+
       const queries = mrf.encodeQueryObject({
         api_key: "ec4ff1b6182572d3e74735e74ca3a8ef",
         language: "es-ES",
         include_adult: "false",
         page,
+        with_genres: gender,
       });
 
-      fetch(`https://api.themoviedb.org/3/tv/popular?${queries}`)
+      const url = Boolean(gender)
+        ? `https://api.themoviedb.org/3/discover/tv?${queries}`
+        : `https://api.themoviedb.org/3/tv/popular?${queries}`;
+
+      fetch(url)
         .then((res) => res.json())
         .then((json) => {
           resolve(
