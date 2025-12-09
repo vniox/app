@@ -1097,6 +1097,8 @@ var peliculaId = () => {
         });
     });
 
+    document.documentElement.style.setProperty("--app-poster-color", "#000000");
+
     $elements.container.append(addCollection.fragment);
   }).fragment;
 };
@@ -1680,6 +1682,8 @@ var serieId = () => {
 
     $elements.itemNull.style.display = "none";
     $elements.itemTrue.style.display = "";
+
+    document.documentElement.style.setProperty("--app-poster-color", "#000000");
 
     androidWebview((Android) => {
       Android.colorSystemBar("#000000");
@@ -2306,6 +2310,8 @@ var animeId = () => {
 
     $elements.itemNull.style.display = "none";
     $elements.itemTrue.style.display = "";
+
+    document.documentElement.style.setProperty("--app-poster-color", "#000000");
 
     androidWebview((Android) => {
       Android.colorSystemBar("#000000");
