@@ -1,0 +1,66 @@
+{
+    "adult": false,
+    "backdrop_path": "/lZYMXx74pWmbj5Q5jp1QaMvmuuR.jpg",
+    "belongs_to_collection": {
+        "id": 1180834,
+        "name": "Troll Collection (Norwegian)",
+        "poster_path": "/A5kWJJaBeFPTVqAW4peaubw1JqA.jpg",
+        "backdrop_path": "/o8pjPgPsAleCTJr93FMmQOUZ05q.jpg"
+    },
+    "budget": 11200000,
+    "genres": [
+        {
+            "id": 28,
+            "name": "Acción"
+        },
+        {
+            "id": 14,
+            "name": "Fantasía"
+        },
+        {
+            "id": 53,
+            "name": "Suspense"
+        }
+    ],
+    "homepage": "https://www.netflix.com/es/title/81667085",
+    "id": 1180831,
+    "imdb_id": "tt29232158",
+    "origin_country": [
+        "NO"
+    ],
+    "original_language": "no",
+    "original_title": "Troll 2",
+    "overview": "Cuando un nuevo y peligroso trol amenaza con devastar su país, Nora, Andreas y el comandante Kris se embarcan en la misión más peligrosa de sus vidas.",
+    "popularity": 530.1827,
+    "poster_path": "/pbXxPTmUsrl7zoGc4MlYHMtzGLG.jpg",
+    "production_companies": [
+        {
+            "id": 108394,
+            "logo_path": "/b8tlLQtTvvjRiaB5TcUWqYmX4eN.png",
+            "name": "Motion Blur",
+            "origin_country": "NO"
+        }
+    ],
+    "production_countries": [
+        {
+            "iso_3166_1": "NO",
+            "name": "Norway"
+        }
+    ],
+    "release_date": "2025-11-30",
+    "revenue": 0,
+    "runtime": 105,
+    "spoken_languages": [
+        {
+            "english_name": "Norwegian",
+            "iso_639_1": "no",
+            "name": "Norsk"
+        }
+    ],
+    "status": "Released",
+    "tagline": "",
+    "title": "Trol 2",
+    "video": false,
+    "vote_average": 6.835,
+    "vote_count": 194
+}

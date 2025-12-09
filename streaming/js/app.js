@@ -403,11 +403,117 @@ var getMediaWeb = (url, resolve) => {
   }
 };
 
-var peliculaId = () => {
-  const mrc = window.MyResourceClass;
-  const mrf = window.MyResourceFunction;
-  const svg = window.iconSVG;
+var androidWebview = (callback) => {
+  const android = window.Android;
 
+  if (android) {
+    try {
+      callback(android);
+    } catch (error) {}
+  }
+};
+
+const mrc = window.MyResourceClass;
+const mrf = window.MyResourceFunction;
+const svg = window.iconSVG;
+
+const htmlComponent = (component = "", callback) => {
+  const node = document.createTextNode("");
+  const input = document.createElement("input");
+  const output = document.createElement("input");
+
+  const emit = (input) => {
+    return (type, data) => {
+      input.dispatchEvent(
+        new CustomEvent(`custom-event__${type}`, { detail: data })
+      );
+    };
+  };
+
+  const on = (input) => {
+    return (type, callback) => {
+      const trigger = ({ detail }) => callback(detail);
+
+      input.addEventListener(`custom-event__${type}`, trigger);
+      return () => removeEventListener(`custom-event__${type}`, trigger);
+    };
+  };
+
+  if (!htmlComponent[component]) {
+    htmlComponent[component] = new Promise((resolve) => {
+      fetch(`./templates/${component}.ejs`)
+        .then((res) => res.text())
+        .then((text) => {
+          const body = document.createElement("body");
+          body.innerHTML = text;
+
+          const style = body.querySelector("style");
+          const template = body.querySelector("template");
+
+          Array.from(template.content.querySelectorAll("svg-icon")).forEach(
+            (element) => {
+              element.outerHTML = svg(element.getAttribute("data-value"));
+            }
+          );
+
+          document.head.append(style);
+          resolve(template);
+        });
+    });
+  }
+
+  htmlComponent[component].then((template) => {
+    const clone = template.content.cloneNode(true);
+
+    const elements = mrf.createObjectElement(
+      clone.querySelectorAll("[id]"),
+      "id",
+      true
+    );
+
+    node.replaceWith(clone);
+
+    callback?.({ elements, emit: emit(output), on: on(input) });
+  });
+
+  return {
+    fragment: node,
+    emit: emit(input),
+    on: on(output),
+  };
+};
+
+var AddCollection = () => {
+  return htmlComponent("components/addCollection", ({ elements, on, emit }) => {
+    const myApp = window.dataApp;
+
+    myApp.events(elements.container, "click", () => {
+      //   alert("hola mundo");
+      elements.container.style.display = "none";
+    });
+
+    myApp.events(elements.containerPrimary, "click", (e) => {
+      e.stopPropagation();
+
+      const button = e.target.closest("button");
+    //   console.log(button);
+
+      if (button) {
+        const to = button.getAttribute("data-add-to");
+
+        if (to != 0) {
+          emit("add-collection", { collection_id: to });
+        }
+      }
+    });
+
+    on("open-modal", () => {
+      elements.container.style.display = "";
+    });
+  });
+};
+
+var peliculaId = () => {
   const myApp = window.dataApp;
   const myVal = {
     params: myApp.routes.params(),
@@ -480,7 +586,11 @@ var peliculaId = () => {
 
                   <div class="div_BIchAsC" style="display:flex; justify-content:center; align-items:center; overflow:initial; gap: 10px">
 
-                      <label class="label_zjZIMnZ" style="width:50px;height:50px">
+                      <button id="collection" class="label_zjZIMnZ" style="width:50px;height:50px">
+                        ${svg("fi fi-rr-plus")}
+                      </button>
+
+                      <label class="label_zjZIMnZ" style="display:none">
                           <input type="checkbox" id="inputView">
                           <span style="display:flex">
                             ${svg("fi fi-rr-plus")}
@@ -562,6 +672,8 @@ var peliculaId = () => {
     "id",
     true
   );
+
+  const addCollection = AddCollection();
 
   myVal.signals.isFavorite.observe((boolean) => {
     $elements.favorite.innerHTML = svg(
@@ -759,32 +871,33 @@ var peliculaId = () => {
       });
   });
 
-  myApp.events($elements.inputView, "change", () => {
-    const encodeQueryString = mrf.encodeQueryObject({
-      route: "toggle-favorites",
-      data_id: myVal.values.data_id,
-      type: 2,
-      action: $elements.inputView.checked ? 1 : 0,
-      id_collection: 2,
-    });
+  myApp.events($elements.collection, "click", () => {
+    addCollection.emit("open-modal");
+    // const encodeQueryString = mrf.encodeQueryObject({
+    //   route: "toggle-favorites",
+    //   data_id: myVal.values.data_id,
+    //   type: 2,
+    //   action: $elements.inputView.checked ? 1 : 0,
+    //   id_collection: 2,
+    // });
 
-    fetch(
-      myApp.url.server(`/api.php?${encodeQueryString}`),
-      myApp.fetchOptions({
-        method: "GET",
-      })
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data == null) {
-          location.hash = "#/login";
-          return;
-        }
+    // fetch(
+    //   myApp.url.server(`/api.php?${encodeQueryString}`),
+    //   myApp.fetchOptions({
+    //     method: "GET",
+    //   })
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data == null) {
+    //       location.hash = "#/login";
+    //       return;
+    //     }
 
-        if (data?.status) {
-          myVal.signals.isView.value = data.type == 1;
-        }
-      });
+    //     if (data?.status) {
+    //       myVal.signals.isView.value = data.type == 1;
+    //     }
+    //   });
   });
 
   myApp.events($elements.itemTrueOptionVideos, "click", (e) => {
@@ -859,6 +972,9 @@ var peliculaId = () => {
 
   myVal.get.dataTrue = () => {
     return new Promise((resolve, reject) => {
+      // fetch("/public/json/response.json")
+      //   .then((res) => res.json())
+      //   .then((json) => resolve(json)); 
       fetch(
         `https://api.themoviedb.org/3/movie/${myVal.params.id}?api_key=ec4ff1b6182572d3e74735e74ca3a8ef&language=es-ES`
         // `/public/json/data.json`
@@ -868,9 +984,9 @@ var peliculaId = () => {
           resolve(json);
         });
 
-      // ApiWebCuevana.peliculaId(myVal.params.id).then((data) => {
-      //   resolve(data);
-      // });
+      ApiWebCuevana.peliculaId(myVal.params.id).then((data) => {
+        resolve(data);
+      });
     });
   };
 
@@ -903,7 +1019,9 @@ var peliculaId = () => {
         myApp.elements.meta.color.setAttribute("content", color);
         $element.style.background = color;
 
-        myApp.callbackIf(window.Android, (Android) => {
+        document.documentElement.style.setProperty("--app-poster-color", color);
+
+        androidWebview((Android) => {
           Android.colorSystemBar(color);
         });
       });
@@ -1050,12 +1168,52 @@ var peliculaId = () => {
   myApp.elements.meta.color.setAttribute("content", "#000000");
   myVal.get.dataTrue().then(myVal.set.dataTrue);
 
-  myApp.callbackIf(window.Android, (Android) => {
+  $elements.itemNull.style.display = "none";
+  $elements.itemTrue.style.display = "";
+
+  androidWebview((Android) => {
     Android.colorSystemBar("#000000");
   });
 
-  $elements.itemNull.style.display = "none";
-  $elements.itemTrue.style.display = "";
+  // addCollection.emit("update-number", () => {});
+  // addCollection.on("submmited", () => {});
+
+  addCollection.on("add-collection", (data) => {
+    // console.log(data);
+    // $elements.favorite.click();
+
+    if (data.collection_id == 1) {
+      myVal.signals.isFavorite.value = !myVal.signals.isFavorite.value;
+    }
+
+    const encodeQueryString = mrf.encodeQueryObject({
+      route: "toggle-favorites",
+      data_id: myVal.values.data_id,
+      type: 2,
+      action: $elements.favorite.dataset.action,
+      id_collection: data.collection_id,
+    });
+
+    fetch(
+      myApp.url.server(`/api.php?${encodeQueryString}`),
+      myApp.fetchOptions({
+        method: "GET",
+      })
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data == null) {
+          location.hash = "#/login";
+          return;
+        }
+
+        if (data?.status) {
+          myVal.signals.isFavorite.value = data.type == 1;
+        }
+      });
+  });
+
+  $element.append(addCollection.fragment);
 
   return $element;
 };
@@ -1568,7 +1726,7 @@ var serieId = () => {
         myApp.elements.meta.color.setAttribute("content", color);
         $element.style.background = color;
 
-        myApp.callbackIf(window.Android, (Android) => {
+        androidWebview((Android) => {
           Android.colorSystemBar(color);
         });
       });
@@ -1754,12 +1912,12 @@ var serieId = () => {
   myApp.elements.meta.color.setAttribute("content", "#000000");
   myVal.get.dataTrue().then(myVal.set.dataTrue);
 
-  myApp.callbackIf(window.Android, (Android) => {
-    Android.colorSystemBar("#000000");
-  });
-
   $elements.itemNull.style.display = "none";
   $elements.itemTrue.style.display = "";
+
+  androidWebview((Android) => {
+    Android.colorSystemBar("#000000");
+  });
 
   return $element;
 };
@@ -2293,7 +2451,11 @@ var animeId = () => {
         myApp.elements.meta.color.setAttribute("content", color);
         $element.style.background = color;
 
-        myApp.callbackIf(window.Android, (Android) => {
+        // myApp.callbackIf(window.Android, (Android) => {
+        //   Android.colorSystemBar(color);
+        // });
+
+        androidWebview((Android) => {
           Android.colorSystemBar(color);
         });
       });
@@ -2499,7 +2661,7 @@ var animeId = () => {
   $elements.itemNull.style.display = "none";
   $elements.itemTrue.style.display = "";
 
-  myApp.callbackIf(window.Android, (Android) => {
+  androidWebview((Android) => {
     Android.colorSystemBar("#000000");
   });
 
@@ -6553,7 +6715,7 @@ var footerVideoPlayer = () => {
                     <div class="div_OZ6oAgh"><span id="spanBar"></span></div>
                     <div class="div_lq8dhAa">
                         <button id="buttonPlayPause"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-play"><path d="M20.494,7.968l-9.54-7A5,5,0,0,0,3,5V19a5,5,0,0,0,7.957,4.031l9.54-7a5,5,0,0,0,0-8.064Zm-1.184,6.45-9.54,7A3,3,0,0,1,5,19V5A2.948,2.948,0,0,1,6.641,2.328,3.018,3.018,0,0,1,8.006,2a2.97,2.97,0,0,1,1.764.589l9.54,7a3,3,0,0,1,0,4.836Z"></path></svg></button>
-                        <button id="buttonPIP"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" data-svg-name="fi fi-rr-resize"><path d="m19 0h-8a5.006 5.006 0 0 0 -5 5v6h-1a5.006 5.006 0 0 0 -5 5v3a5.006 5.006 0 0 0 5 5h3a5.006 5.006 0 0 0 5-5v-1h6a5.006 5.006 0 0 0 5-5v-8a5.006 5.006 0 0 0 -5-5zm-8 16a3 3 0 0 1 -3-3 3 3 0 0 1 3 3zm0 3a3 3 0 0 1 -3 3h-3a3 3 0 0 1 -3-3v-3a3 3 0 0 1 3-3h1a5.006 5.006 0 0 0 5 5zm11-6a3 3 0 0 1 -3 3h-6a4.969 4.969 0 0 0 -.833-2.753l5.833-5.833v2.586a1 1 0 0 0 2 0v-3a3 3 0 0 0 -3-3h-3a1 1 0 0 0 0 2h2.586l-5.833 5.833a4.969 4.969 0 0 0 -2.753-.833v-6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3z"></path></svg></button>
+                        <button id="buttonPIP" style="display:none"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" data-svg-name="fi fi-rr-resize"><path d="m19 0h-8a5.006 5.006 0 0 0 -5 5v6h-1a5.006 5.006 0 0 0 -5 5v3a5.006 5.006 0 0 0 5 5h3a5.006 5.006 0 0 0 5-5v-1h6a5.006 5.006 0 0 0 5-5v-8a5.006 5.006 0 0 0 -5-5zm-8 16a3 3 0 0 1 -3-3 3 3 0 0 1 3 3zm0 3a3 3 0 0 1 -3 3h-3a3 3 0 0 1 -3-3v-3a3 3 0 0 1 3-3h1a5.006 5.006 0 0 0 5 5zm11-6a3 3 0 0 1 -3 3h-6a4.969 4.969 0 0 0 -.833-2.753l5.833-5.833v2.586a1 1 0 0 0 2 0v-3a3 3 0 0 0 -3-3h-3a1 1 0 0 0 0 2h2.586l-5.833 5.833a4.969 4.969 0 0 0 -2.753-.833v-6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3z"></path></svg></button>
                         <button id="buttonCloseVideo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-cross"><path d="M23.707.293h0a1,1,0,0,0-1.414,0L12,10.586,1.707.293a1,1,0,0,0-1.414,0h0a1,1,0,0,0,0,1.414L10.586,12,.293,22.293a1,1,0,0,0,0,1.414h0a1,1,0,0,0,1.414,0L12,13.414,22.293,23.707a1,1,0,0,0,1.414,0h0a1,1,0,0,0,0-1.414L13.414,12,23.707,1.707A1,1,0,0,0,23.707.293Z"></path></svg></button>
                     </div>
                   </div>

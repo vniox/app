@@ -1,0 +1,128 @@
+<style>
+    [tag__JvzHII5CT1] {
+        z-index: 999;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+
+        backdrop-filter: blur(5px);
+        padding: 10px;
+
+        .contenedor-primario {
+            margin: auto;
+            margin-bottom: initial;
+            width: min(100%, 400px);
+            background: rgb(255, 255, 255, 0.1);
+            border-radius: 15px;
+
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            max-height: 50vh;
+        }
+
+
+
+        .contenedor-secundario {
+            display: grid;
+            overflow-y: auto;
+            padding: 10px;
+
+            flex: 1;
+        }
+
+        .button-add {
+            width: 100%;
+            height: 50px;
+
+            display: grid;
+            grid-template-columns: 1fr 50px;
+            text-align: left;
+
+            align-items: center;
+            border-radius: 5px;
+
+            &:hover {
+                background: rgb(0, 0, 0, 0.1);
+            }
+
+        }
+
+        hr {
+            border-color: rgb(255, 255, 255, 0.3);
+        }
+
+        .button-add-collection {
+            width: 100%;
+            height: 50px;
+            border-radius: 50px;
+            background: purple;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            background: var(--app-poster-color);
+        }
+    }
+</style>
+
+<template>
+    <div tag__JvzHII5CT1 id="container" class="tag-fixed-full" style="display: none;">
+        <div id="containerPrimary" class="contenedor-primario">
+
+            <div class="contenedor-secundario">
+                <button class="button-add" data-add-to="1">
+                    <!-- ${svg("fi fi-rr-plus")} -->
+
+                    <div style="display: grid; padding: 10px;">
+                        <span style="font-weight: bold;">Favoritos</span>
+                        <small>0</small>
+                    </div>
+
+                    <span class="flex-center">
+                        <svg-icon data-value="fi fi-rr-plus" />
+                    </span>
+
+                </button>
+
+                <button class="button-add" data-add-to="2">
+                    <!-- ${svg("fi fi-rr-plus")} -->
+
+                    <div style="display: grid; padding: 10px;">
+                        <span style="font-weight: bold;">Terminados</span>
+                        <small>0</small>
+                    </div>
+
+                    <span class="flex-center">
+                        <svg-icon data-value="fi fi-rr-plus" />
+                    </span>
+
+                </button>
+
+            </div>
+
+            <hr>
+
+            <div style="padding: 10px;">
+                <button class="button-add-collection" data-add-to="0">
+                    <!-- ${svg("fi fi-rr-plus")} -->
+                    <span class="flex-center">
+                        <svg-icon data-value="fi fi-rr-plus" />
+                    </span>
+                    <span>Nueva coleccion</span>
+
+                </button>
+            </div>
+
+
+
+        </div>
+    </div>
+</template>
