@@ -212,17 +212,13 @@ var navigate = () => {
             <div class="div_AzB9StLbTItJbDG">
                 <div class="div_JJ29L3eoT4hcf1x">
                     <div id="links" class="div_ynsbf8jCYmc6NsK">
-                        <a id="inicio" href="#/" class="button_vz3gd83JzdjM7pt">
-                          ${svg("fi fi-rr-house-blank")}
+                        <a id="inicio" href="#/" class="button_vz3gd83JzdjM7pt" data-icon="fi fi-rr-house-blank|fi fi-sr-house-blank">
                         </a>
-                        <a id="search" href="#/search" class="button_vz3gd83JzdjM7pt">
-                          ${svg("fi fi-rr-search")}
+                        <a id="search" href="#/search" class="button_vz3gd83JzdjM7pt" data-icon="fi fi-rr-search|fi fi-sr-search">
                         </a> 
-                        <a id="collection" href="#/collection" class="button_vz3gd83JzdjM7pt">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-svg-name="fi fi-rr-books"><path d="M23.786,19.492L16.713,1.836c-.624-1.529-2.376-2.269-3.911-1.645l-.925,.378c-.249,.102-.472,.244-.68,.402-.548-.594-1.326-.972-2.196-.972H3C1.346,0,0,1.346,0,3V21c0,1.654,1.346,3,3,3h6c1.654,0,3-1.346,3-3V8.895l5.304,13.242c.625,1.543,2.417,2.26,3.909,1.641l.926-.378c1.505-.574,2.286-2.434,1.647-3.907ZM13.574,7.446l2.778-1.132,4.171,10.412-2.778,1.132L13.574,7.446Zm-.942-5.025l.925-.378c.496-.206,1.097,.031,1.302,.543l.75,1.871-2.777,1.132-.747-1.866c-.208-.51,.038-1.095,.549-1.303ZM2,7h3v10H2V7Zm5,0h3v10h-3V7Zm3-4v2h-3V2h2c.551,0,1,.448,1,1ZM3,2h2v3H2V3c0-.552,.449-1,1-1Zm-1,19v-2h3v3H3c-.551,0-1-.448-1-1Zm7,1h-2v-3h3v2c0,.552-.449,1-1,1Zm12.929-.991c-.104,.247-.297,.438-.544,.539h0l-.926,.378c-.511,.206-1.095-.037-1.3-.54l-.669-1.671,2.778-1.132,.665,1.661c.102,.247,.101,.52-.003,.766Z"></path></svg>
+                        <a id="collection" href="#/collection" class="button_vz3gd83JzdjM7pt" data-icon="fi fi-rr-books|fi fi-sr-books">
                         </a>
-                        <a id="profile" href="#/setting" class="button_vz3gd83JzdjM7pt">
-                          ${svg("fi fi-rr-user")}
+                        <a id="profile" href="#/setting" class="button_vz3gd83JzdjM7pt" data-icon="fi fi-rr-user|fi fi-sr-user">
                         </a>
                     </div>
                 </div>
@@ -248,6 +244,16 @@ var navigate = () => {
   ]);
 
   addEventListener("hashchange", () => {
+    Array.from($elements.links.querySelectorAll("a")).forEach((a) => {
+      a.innerHTML = svg(a.dataset.icon.split("|")[0]);
+    });
+
+    const anchor = myVal.routes.get();
+
+    if (anchor) {
+      anchor.innerHTML = svg(anchor.dataset.icon.split("|")[1]);
+    }
+
     Array.from($elements.links.querySelectorAll("a.active")).forEach((a) =>
       a.classList.remove("active")
     );
@@ -302,11 +308,11 @@ var navigateBottom = () => {
       a.innerHTML = svg(a.dataset.icon.split("|")[0]);
     });
 
-    // const anchor = myVal.routes.get();
+    const anchor = myVal.routes.get();
 
-    // if (anchor) {
-    //   anchor.innerHTML = svg(anchor.dataset.icon.split("|")[1]);
-    // }
+    if (anchor) {
+      anchor.innerHTML = svg(anchor.dataset.icon.split("|")[1]);
+    }
 
     Array.from($elements.links.querySelectorAll("a.active")).forEach((a) =>
       a.classList.remove("active")
@@ -484,7 +490,7 @@ const htmlComponent = (component = "", callback) => {
 };
 
 var AddCollection = () => {
-  return htmlComponent("components/addCollection", ({ elements, on, emit }) => {
+  return htmlComponent("components/AddCollection", ({ elements, on, emit }) => {
     const myApp = window.dataApp;
 
     myApp.events(elements.container, "click", () => {

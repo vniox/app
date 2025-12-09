@@ -605,6 +605,9 @@ input {
   display: flex;
   flex-direction: column;
 
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-color-letter) var(--app-color-background);
+
   /* transition: width 0.3s ease;
   background: green; */
 }
@@ -950,13 +953,17 @@ input {
   justify-content: center;
   align-items: center;
 
-  border-radius: 15px;
+  /* border-radius: 50%; */
+
+  border-bottom: 2px solid transparent;
 
   &.active {
-    background: var(--app-color-letter);
-    & svg {
+    /* background: var(--app-color-letter); */
+    border-bottom-color: var(--app-color-letter);
+
+    /* & svg {
       fill: var(--app-color-item);
-    }
+    } */
   }
 
   & svg {
@@ -1026,16 +1033,17 @@ input {
     justify-content: center;
     align-items: center;
 
-    border-radius: 50%;
+    /* border-radius: 35px; */
     overflow: hidden;
+    border-bottom: 2px solid transparent;
 
     &.active {
-      background: var(--app-color-letter);
-      border-radius: 15px;
+      /* background: var(--app-color-letter); */
+      border-bottom-color: var(--app-color-letter);
 
-      & svg {
+      /* & svg {
         fill: var(--app-color-item);
-      }
+      } */
     }
 
     &.a_1OKAZpH {

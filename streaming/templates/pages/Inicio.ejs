@@ -1,4 +1,77 @@
 <style></style>
 <template>
 
+    <div id="container" class="div_Xu02Xjh">
+
+        <header class="header_K0hs3I0">
+
+            <div class="div_uNg74XS">
+                <div class="div_sZZicpN">
+                    <h3 id="h3Title">Inicio</h3>
+                    <span id="genderText">todos</span>
+                </div>
+            </div>
+
+            <div class="div_x0cH0Hq">
+                <div class="div_klylpyg">
+                    <small>
+                        <svg-icon data-value="fi fi-rr-filter" />
+                    </small>
+                    <select id="selectGender">
+                        <option selected>Todos</option>
+                    </select>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div class="div_BIchAsC">
+
+            <form class="app-form-label-checkbox" id="form-filter-type" name="form-filter-type">
+                <label>
+                    <input type="radio" name="key" value="1" checked>
+                    <span>Animes</span>
+                </label>
+                <label>
+                    <input type="radio" name="key" value="2">
+                    <span>Peliculas</span>
+                </label>
+                <label>
+                    <input type="radio" name="key" value="3">
+                    <span>Series</span>
+                </label>
+                <label style="display:none">
+                    <input type="radio" name="key" value="4">
+                    <span>Peliculas II</span>
+                </label>
+                <label style="display:none">
+                    <input type="radio" name="key" value="5">
+                    <span>Series II</span>
+                </label>
+                <label style="display:none">
+                    <input type="radio" name="key" value="6">
+                    <span>Canales</span>
+                </label>
+            </form>
+
+        </div>
+
+
+
+        <div class="div_IsTCHpN">
+            <div id="itemNull" class="loader-i" style="--color:var(--app-color-letter)"></div>
+            <div id="itemFalse" class="div_b14S3dH" style="display:none">
+                <svg-icon data-value="fi fi-rr-search-alt" />
+                <h3>sin resultados</h3>
+            </div>
+            <div id="itemTrue" class="div_qsNmfP3" style="display:none">
+                <div id="itemTrueLoad" class="div_Qm4cPUn">
+                    <div class="loader-i" style="--color:var(--app-color-letter)"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </template>
