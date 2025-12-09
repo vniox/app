@@ -1,4 +1,3 @@
-
 /* ----- APP -- APP.CSS ----- */
 
 :root {
@@ -107,6 +106,10 @@ input {
     &:has(input:checked) {
       background: var(--app-color-letter);
       color: var(--app-color-item);
+
+      svg {
+        fill: var(--app-poster-color);
+      }
     }
   }
 
@@ -1159,7 +1162,7 @@ input {
 
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color:  #f7f7f7 #1C1C1E;
+  scrollbar-color: #f7f7f7 #1c1c1e;
 }
 
 .div_SAkweTq {
@@ -2649,8 +2652,6 @@ input {
 }
 
 /* ----- PAGE -- SERIE2.CSS ----- */
-
-
 
 /* ----- PAGE -- SETTING.CSS ----- */
 

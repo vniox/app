@@ -1,0 +1,128 @@
+<style></style>
+<template>
+    <div id="container" class="div_Xu02Xjh div_mrXVL9t" style="position:fixed; transition: background .3s ease;">
+
+        <header class="header_K0hs3I0 header_RtX3J1X">
+
+            <div class="div_uNg74XS">
+                <a href="#" class="button_lvV6qZu" data-history-back>
+                    <svg-icon data-value="fi fi-rr-angle-small-left" />
+                </a>
+            </div>
+
+        </header>
+
+        <div class="div_guZ6yID div_DtSQApy">
+            <div id="itemNull" class="loader-i" style="--color:var(--app-color-letter)"></div>
+            <div id="itemFalse" class="div_b14S3dH" style="display:none">
+                <svg-icon data-value="fi fi-rr-search-alt" />
+                <h3>La pelicula no existe</h3>
+            </div>
+
+            <div id="itemTrue" class="div_hqzh2NV" style="display:none; padding:15px">
+
+                <div class="div_cnJqhFl">
+                    <div class="div_0JOSFlg" style="background: rgb(255 255 255 / .3)">
+                        <img id="poster" src="" style="display:none">
+                    </div>
+                    <div class="div_cxFXOaL" style="display:none">
+                        <label class="label_zjZIMnZ">
+                            <input type="checkbox" id="inputView">
+                            <span style="display:flex">
+                                <svg-icon data-value="fi fi-rr-check" />
+                            </span>
+                        </label>
+                        <button id="play" class="button_bDfhQ4b" style="display:none">
+                            <small></small>
+                            <span>Play</span>
+                        </button>
+                    </div>
+
+                    <h2 id="title" style="flex: 1; text-align:center; font-size: clamp(1rem, 2vw, 2rem);"></h2>
+                </div>
+
+
+                <div class="div_BIchAsC"
+                    style="display:flex; justify-content:center; align-items:center; overflow:initial; gap: 10px">
+
+                    <label class="label_zjZIMnZ" style="width:50px;height:50px">
+                        <input type="checkbox" id="inputView">
+                        <span style="display:flex">
+                            <svg-icon data-value="fi fi-rr-plus" />
+                        </span>
+                    </label>
+                    <form class="app-form-label-checkbox" id="form-filter-type"
+                        style="border-radius:60px; background:rgb(255,255,255, 0.1); padding: 7px; gap:7px">
+                        <label>
+                            <input type="radio" name="key" value="information" checked>
+                            <!-- <span>Detalles</span> -->
+                            <svg-icon data-value="fi fi-rr-info" />
+
+                        </label>
+                        <label>
+                            <input type="radio" name="key" value="chapter">
+                            <!-- <span>Capitulos</span> -->
+                            <svg-icon data-value="fi fi-rr-bars-sort" />
+
+                        </label>
+                    </form>
+
+                    <button id="favorite" class="label_zjZIMnZ" style="width:50px;height:50px">
+                        <svg-icon data-value="fi fi-rr-heart" />
+                    </button>
+
+                </div>
+
+                <div id="itemTrueInformation" class="div_cnJqhFl">
+                    <div class="div_aSwP0zW">
+                        <span id="nextEpisode"></span>
+                        <span id="genres"></span>
+                        <span id="duration"></span>
+                        <span id="date"></span>
+                    </div>
+                    <hr style="border-color:rgb(181,178,178,0.2)">
+                    <p id="overview" style="font-size:14px"></p>
+                </div>
+
+                <div id="itemTrueChapter" class="div_692wB8" style="display:none">
+                    <div class="div_mu7pmfs" style="display: flex; justify-content: space-between;">
+                        <div class="div_xesi90n">
+                            <select id="selectSeason" style="padding-right:10px">
+                                <option>Temporada 1</option>
+                            </select>
+                        </div>
+
+                        <div class="div_xesi90n">
+                            <button id="buttonSeasonOrder">
+                                <svg-icon data-value="fi fi-rr-sort-alt" />
+                            </button>
+                        </div>
+                    </div>
+                    <div id="episodes" class="div_bi3qmqX"></div>
+                </div>
+
+                <div id="itemTrueSimilar" class="div_wNo9gA9" style="display:none; padding: 15px 0">
+                    <div id="similar" class="div_qsNmfP3" style="padding: 0"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="itemTrueOption" class="div_5Pe946IMjyL1Rs" popover>
+            <div class="div_dsb3nhtCrFmUlSN p-10px">
+                <div class="div_cXaADrL pointer-on">
+                    <div id="itemTrueOptionVideos" class="div_lm2WViG"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loaderVideo" class="div_uzuovb5" style="display:none">
+
+            <div class="div_x8birmo">
+                <div class="loader-i" style="--color:var(--app-color-letter)"></div>
+                <span>cargando...</span>
+            </div>
+
+        </div>
+    </div>
+</template>
