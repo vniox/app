@@ -3757,35 +3757,41 @@ var collection = () => {
         .then((data) => {
           resolve(
             Array.isArray(data)
-              ? data.map((_) => {
-                  const data = JSON.parse(_.data_json);
+              ? data
+                  .map((_) => {
+                    const data = JSON.parse(_.data_json);
 
-                  if (type == 1) {
+                    if (type == 1) {
+                      return {
+                        href: `#/anime/${data.identifier}`,
+                        title: data.title,
+                        info: data.type,
+                        image: data.poster,
+                        style: "",
+                      };
+                    }
+
+                    if (!data.TMDbId) return false;
+
+                    console.log(data);
+
+                    const image = data.images.poster
+                      ? data.images.poster.replace("/original/", "/w185/")
+                      : "";
+
+                    const type_ = data.url.slug.startsWith("movies/")
+                      ? "pelicula"
+                      : "serie";
+
                     return {
-                      href: `#/anime/${data.identifier}`,
-                      title: data.title,
-                      info: data.type,
-                      image: data.poster,
+                      href: `#/${type_}/${data.TMDbId}`,
+                      title: data.titles.name,
+                      info: "",
+                      image: image,
                       style: "",
                     };
-                  }
-
-                  const image = data.images.poster
-                    ? data.images.poster.replace("/original/", "/w185/")
-                    : "";
-
-                  const type_ = data.url.slug.startsWith("movies/")
-                    ? "pelicula"
-                    : "serie";
-
-                  return {
-                    href: `#/${type_}/${data.TMDbId}`,
-                    title: data.titles.name,
-                    info: "",
-                    image: image,
-                    style: "",
-                  };
-                })
+                  })
+                  .filter(Boolean)
               : []
           );
         });
@@ -4019,6 +4025,8 @@ var historial = () => {
 
     $elements.itemTrue.append(
       ...array.map((data, index, array) => {
+        if (!data.TMDbId) return "";
+
         if (data.images.poster == null) return "";
 
         const date = new Date(data.other.datetime);
