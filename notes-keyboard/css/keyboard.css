@@ -1,0 +1,43 @@
+[tag__vvbr24irie] {
+  width: 100%;
+  height: 100%;
+
+  padding: 5px;
+  gap: 5px;
+
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+
+  .contendedor_teclas {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+
+    button {
+      all: unset;
+      flex: 1;
+
+      background: var(--app-color-item);
+      border-radius: 7px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+[tag__o3owy2uhv7] {
+  padding: 10px;
+  display: flex;
+  color: var(--app-color-letter);
+
+  & textarea {
+    all: unset;
+
+    width: 100%;
+    field-sizing: content;
+    max-height: 50px;
+    overflow-y: auto;
+  }
+}

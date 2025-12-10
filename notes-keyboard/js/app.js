@@ -1,121 +1,5 @@
 'use strict';
 
-var navigateBottom = () => {
-  const c = window.MyResourceClass;
-  const f = window.MyResourceFunction;
-
-  const useApp = window.dataApp;
-  const useThis = {
-    routes: new c.RouteHashCallback(),
-    element: {
-      textNode: document.createTextNode(""),
-    },
-  };
-
-  const $element = f.createNodeElement(`
-    <div class="div_U1rCCk1">
-      <div id="links" class="div_ZnL3gfK">
-        <a id="inicio" href="#/">
-          ${useApp.svgIcon("fi fi-rr-house-blank")}
-        </a>
-        <a id="label" href="#/label" class="button_vz3gd83JzdjM7pt">
-          ${useApp.svgIcon("fi fi-rr-tags")}
-        </a>
-        <a id="setting" href="#/setting" class="button_vz3gd83JzdjM7pt">
-          ${useApp.svgIcon("fi fi-rr-user")}
-        </a> 
-      </div>
-    </div>
-  `);
-
-  const $elements = f.createObjectElement(
-    $element.querySelectorAll("[id]"),
-    "id",
-    true
-  );
-
-  useThis.routes.set([
-    { hash: "/", callback: () => $elements.inicio },
-    { hash: "/label/*", callback: () => $elements.label },
-    { hash: "/share/*", callback: () => $elements.share },
-    { hash: "/setting", callback: () => $elements.setting },
-  ]);
-
-  addEventListener("hashchange", () => {
-    Array.from($elements.links.querySelectorAll("a.active")).forEach((a) => {
-      a.classList.remove("active");
-    });
-    (useThis.routes.get() || document.createElement("a")).classList.add(
-      "active"
-    );
-  });
-
-  return $element;
-};
-
-// import eleConfirm from "../includes/eleConfirm";
-
-var navigate = () => {
-  const c = window.MyResourceClass;
-  const f = window.MyResourceFunction;
-
-  const useApp = window.dataApp;
-  const useThis = {
-    routes: new c.RouteHashCallback(),
-    element: {
-      textNode: document.createTextNode(""),
-    },
-  };
-
-  const $element = f.createNodeElement(`
-    <div class="div_kpAeq7EQQSpIEGP">
-      <div class="div_AzB9StLbTItJbDG">
-        <div class="div_JJ29L3eoT4hcf1x">
-          <div id="links" class="div_ynsbf8jCYmc6NsK">
-            <a id="inicio" href="#/" class="button_vz3gd83JzdjM7pt">
-              ${useApp.svgIcon("fi fi-rr-house-blank")}
-            </a>
-            <a id="label" href="#/label" class="button_vz3gd83JzdjM7pt">
-              ${useApp.svgIcon("fi fi-rr-tags")}
-            </a>
-            <a id="share" href="#/share/list" class="button_vz3gd83JzdjM7pt">
-              ${useApp.svgIcon("fi fi-rr-share")}
-            </a>
-            <a id="setting" href="#/setting" class="button_vz3gd83JzdjM7pt">
-              ${useApp.svgIcon("fi fi-rr-user")}
-            </a>
- 
-          </div>
-        </div>
-      </div>
-    </div>    
-  `);
-
-  const $elements = f.createObjectElement(
-    $element.querySelectorAll("[id]"),
-    "id",
-    true
-  );
-
-  useThis.routes.set([
-    { hash: "/", callback: () => $elements.inicio },
-    { hash: "/label", callback: () => $elements.label },
-    { hash: "/share/*", callback: () => $elements.share },
-    { hash: "/setting", callback: () => $elements.setting },
-  ]);
-
-  addEventListener("hashchange", () => {
-    Array.from($elements.links.querySelectorAll("a.active")).forEach((a) =>
-      a.classList.remove("active")
-    );
-    (useThis.routes.get() || document.createElement("a")).classList.add(
-      "active"
-    );
-  });
-
-  return $element;
-};
-
 var buttons = () => {
   const f = window.MyResourceFunction;
 
@@ -162,6 +46,53 @@ var buttons = () => {
   return $element;
 };
 
+var buttonsnavigate = () => {
+  const f = window.MyResourceFunction;
+
+  const a = window.dataApp;
+
+  const $element = f.createNodeElement(`
+    <div class="app-box-button">
+
+        <button id="buttonList" class="app-button">
+            ${a.svgIcon("fi fi-rr-list")} 
+        </button>
+        <hr>
+
+        <button id="buttonTags" class="app-button">
+            ${a.svgIcon("fi fi-rr-tags")} 
+        </button>
+        <hr>
+
+        <button id="buttonKeyboard" class="app-button">
+            ${a.svgIcon("fi fi-rr-keyboard")} 
+        </button>
+ 
+    </div>
+    `);
+
+  const $elements = f.createObjectElement(
+    $element.querySelectorAll("[id]"),
+    "id",
+    true
+  );
+
+  $elements.buttonList.addEventListener("click", () => {
+    location.hash = "/";
+  });
+
+  $elements.buttonTags.addEventListener("click", () => {
+    location.hash = "/label";
+  });
+
+
+  $elements.buttonKeyboard.addEventListener("click", () => {
+    location.hash = "/keyboard";
+  });
+
+  return $element;
+};
+
 var inicio = () => {
   const c = window.MyResourceClass;
   const f = window.MyResourceFunction;
@@ -191,9 +122,12 @@ var inicio = () => {
     <div class="div_Xu02Xjh">
 
         <header class="header_K0hs3I0">
-          <div>
+          <div style="display:none;">
             <h3>Inicio</h3>
             <span id="spanLabel" style="font-size:13px">Todos</span>
+          </div>
+          <div style="display:flex;">
+          <elementButtonNavigate></elementButtonNavigate>
           </div>
           <div style="display:flex;">
             <elementButton></elementButton>
@@ -215,7 +149,7 @@ var inicio = () => {
             <div>
               ${a.svgIcon("custom icon-coffee-question")}
             </div>
-            <h3>~ Lista vacia ~</h3>
+            <h3>~ Sin notas ~</h3>
           </div>
           <div id="itemTrue" class="div_3outgsh" my-event="click->openOptions"></div>
 
@@ -240,6 +174,7 @@ var inicio = () => {
   `
   ).one(($element) => {
     c.MyElement.replaceChildren($element, {
+      elementButtonNavigate: buttonsnavigate(),
       elementButton: buttons(),
     });
   });
@@ -355,7 +290,9 @@ var inicio = () => {
                 data-action="send-text">
                   <div>
                     <span>${_.title}</span>
-                    <p>${_.description}</p>
+                    <p>${Array(_?.description?.length ?? 0)
+                      .fill("*")
+                      .join("")}</p>
                   </div>
               </button>
               <button class="button_cm15sfh" data-action="open-options" style="display:none">
@@ -438,6 +375,183 @@ var inicio = () => {
   return $element;
 };
 
+var keyboard = () => {
+  const c = window.MyResourceClass;
+  const f = window.MyResourceFunction;
+
+  const a = window.dataApp;
+  ({
+    ovalues: {
+      dataTrue: f.observeValue([]),
+      dataNull: f.observeValue(true),
+    },
+
+    values: {
+      item: null,
+    },
+
+    events: {},
+    renders: {},
+    functions: {},
+
+    get: {},
+    set: {},
+  });
+
+  const $element = c.MyElement.create(
+    `
+    <div class="div_Xu02Xjh">
+    
+        <header class="header_K0hs3I0">
+          <div style="display:flex;">
+          <elementButtonNavigate></elementButtonNavigate>
+          </div>
+          <div style="display:flex;">
+            <elementButton></elementButton>
+          </div>
+        </header>
+
+        <div class="div_guZ6yID" >
+
+
+
+            <div tag__vvbr24irie id="keyboard">
+            
+
+                <div class="contendedor_teclas">
+                
+                    ${"qwertyuiop"
+                      .split("")
+                      .map((letter) => {
+                        return `<button data-key="${letter}">${letter}</button>`;
+                      })
+                      .join("")}
+                
+                </div>
+
+                <div class="contendedor_teclas">
+                
+                    ${"asdfghjklñ"
+                      .split("")
+                      .map((letter) => {
+                        return `<button data-key="${letter}">${letter}</button>`;
+                      })
+                      .join("")}
+                
+                </div>
+
+                <div class="contendedor_teclas">
+
+                    <button id="lowercase" data-value="uppercase">${a.svgIcon(
+                      "fi fi-rr-up"
+                    )}</button>
+                
+                    ${"zxcvbnm"
+                      .split("")
+                      .map((letter) => {
+                        return `<button data-key="${letter}">${letter}</button>`;
+                      })
+                      .join("")}
+
+                    <button id="buttonDelete">
+                    ${a.svgIcon("fi fi-rr-delete")}
+                    </button>
+                
+                </div>
+
+                <div class="contendedor_teclas">
+                <button disabled>123</button>
+                <button id="buttonComma">,</button>
+
+                <button style="flex: 5;" id="buttonSpace"></button>
+
+
+                <button id="buttonPeriod">.</button>
+                <button id="buttonLineBreak">
+                    ${a.svgIcon("fi fi-rr-arrow-turn-down-left")}
+                </button>
+                </div>
+
+            </div>
+
+
+        
+        </div>
+    
+    </div>    
+    `
+  ).one(($element) => {
+    c.MyElement.replaceChildren($element, {
+      elementButtonNavigate: buttonsnavigate(),
+      elementButton: buttons(),
+    });
+  });
+
+  const $elements = f.createObjectElement(
+    $element.querySelectorAll("[id]"),
+    "id",
+    true
+  );
+
+  $elements.lowercase.addEventListener("click", () => {
+    const buttons = [...$element.querySelectorAll("button[data-key]")];
+
+    buttons.forEach((button) => {
+      button.innerText =
+        $elements.lowercase.getAttribute("data-value") == "uppercase"
+          ? String(button.innerText).toUpperCase()
+          : String(button.innerText).toLowerCase();
+    });
+
+    $elements.lowercase.setAttribute(
+      "data-value",
+      $elements.lowercase.getAttribute("data-value") == "uppercase"
+        ? "lowercase"
+        : "uppercase"
+    );
+
+    // alert("intercalar");
+  });
+
+  $elements.keyboard.addEventListener("click", (e) => {
+    const button = e.target.closest("button");
+    console.log(button);
+
+    if (button) {
+      if (button.getAttribute("data-key")) {
+        // alert(button.innerText);
+        Android.sendTextToInput(button.innerText);
+      }
+    }
+  });
+
+  $elements.buttonSpace.addEventListener("click", () => {
+    Android.sendTextToInput(" ");
+  });
+
+  $elements.buttonDelete.addEventListener("click", () => {
+    Android.deleteLastChar();
+  });
+
+  $elements.buttonDelete.addEventListener("contextmenu", () => {
+    Android.clearInput();
+  });
+
+  $elements.buttonLineBreak.addEventListener("click", () => {
+    Android.sendTextToInput("\n");
+  });
+
+  $elements.buttonPeriod.addEventListener("click", () => {
+    Android.sendTextToInput(".");
+  });
+
+  $elements.buttonComma.addEventListener("click", () => {
+    Android.sendTextToInput(",");
+  });
+
+  return $element;
+};
+
 var label = () => {
   const c = window.MyResourceClass;
   const f = window.MyResourceFunction;
@@ -466,9 +580,12 @@ var label = () => {
     <div class="div_Xu02Xjh">
 
         <header class="header_K0hs3I0">
-          <div>
+          <div style="display:none;">
             <h3>Etiqueta</h3>
             <span id="spanTotalCount" style="font-size:13px">0 etiqueta(s)</span>
+          </div>
+          <div style="display:flex;">
+          <elementButtonNavigate></elementButtonNavigate>
           </div>
           <div style="display:flex;">
             <elementButton></elementButton>
@@ -482,8 +599,8 @@ var label = () => {
             <div>
               ${a.svgIcon("custom icon-coffee-question")}
             </div>
-            <h3>~ Lista vacia ~</h3>
-            <button my-event="click->addLabel">
+            <h3>~ Sin etiquetas ~</h3>
+            <button my-event="click->addLabel" style="display:none">
               <span>Crear Etiqueta</span>
               <small>${a.svgIcon("fi fi-rr-plus")}</small>
             </button>
@@ -512,6 +629,7 @@ var label = () => {
   `
   ).one(($element) => {
     c.MyElement.replaceChildren($element, {
+      elementButtonNavigate: buttonsnavigate(),
       elementButton: buttons(),
     });
   });
@@ -2146,6 +2264,8 @@ var routes = () => {
 
   useApp.routes.set("hash", [
     { hash: "/", element: inicio, private: true },
+    { hash: "/keyboard", element: keyboard, private: true },
+
     { hash: "/label", element: label, private: false },
     { hash: "/label/:id", element: labelId, private: false },
     { hash: "/share/list", element: share, private: true },
@@ -2259,6 +2379,9 @@ var dataApp = () => {
   return dataApp;
 };
 
+// import navigateBottom from "./assets/navigateBottom";
+// import navigate from "./assets/navigate";
+
 window.dataApp = dataApp();
 
 addEventListener("DOMContentLoaded", () => {
@@ -2268,16 +2391,14 @@ addEventListener("DOMContentLoaded", () => {
     c.MyElement.create(
       `
         <div class="container">
-          <navigate></navigate>
           <routes class="routes"></routes>
         </div>
-        <navigatebottom></navigatebottom>
       `
     ).fragment((fragment) => {
       c.MyElement.replaceChildren(fragment, {
         routes: routes(),
-        navigatebottom: navigateBottom(),
-        navigate: navigate(),
+        // navigatebottom: navigateBottom(),
+        // navigate: navigate(),
       });
     })
   );
