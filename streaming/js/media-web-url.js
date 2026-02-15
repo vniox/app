@@ -63,7 +63,7 @@ class MediaWebUrl {
   };
   static streamwish = ({ url }) => {
     return new Promise((resolve) => {
-      const urlModify = `https://habetar.com/e/${url.split("/").pop()}`;
+      const urlModify = `https://hgplaycdn.com/e/${url.split("/").pop()}`;
 
       this.fetch(urlModify)
         .then((text) => {
@@ -182,3 +182,4 @@ class MediaWebUrl {
     });
   };
 }
+
