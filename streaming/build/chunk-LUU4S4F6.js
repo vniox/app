@@ -1,0 +1,1 @@
+import{p as i,r as o,xa as e}from"./chunk-A6JPJJNV.js";var n=class t{BASE_URL="https://dev.vniox.com/api";http=o(e);url(r=""){return`${this.BASE_URL}/${r}`}static \u0275fac=function(a){return new(a||t)};static \u0275prov=i({token:t,factory:t.\u0275fac,providedIn:"root"})};export{n as a};
