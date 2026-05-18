@@ -726,9 +726,11 @@ class MediaPlayer {
 
     if (Hls.isSupported()) {
       const hls = new Hls();
+
       this.hls = hls;
 
       hls.loadSource(url);
+
       hls.attachMedia(video);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -782,11 +784,5 @@ class MediaPlayer {
 
 const mediaPlayer = new MediaPlayer();
 window.mediaPlayer = mediaPlayer;
-// mediaPlayer.m3u8(
-//   // mediaPlayer.video,
-//   `https://niramirus.com/stream/s89k4D5IU0ybcJX5rmgrpw/kjhhiuahiuhgihdf/1777907683/71213713/master.m3u8`,
-// );
-
-// mediaPlayer.ref.video.src = './video/01696454201604.mp4';
 
 createApp(appData).mount('#app');
