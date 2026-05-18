@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    />
+    <title>Media-player</title>
+
+    <link rel="stylesheet" href="./media-player.css" />
+  </head>
+
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-down-left-and-up-right-to-center">
+        <path
+          d="M23.707,1.707l-5.405,5.405,2.463,2.463c.506,.506,.139,1.378-.58,1.383l-6.382,.042c-.446,.003-.806-.356-.803-.803l.042-6.382c.005-.72,.877-1.086,1.383-.58l2.463,2.463L22.293,.293c.391-.391,1.023-.391,1.414,0s.391,1.023,0,1.414ZM10.197,13l-6.382,.042c-.72,.005-1.086,.877-.58,1.383l2.463,2.463L.293,22.293c-.391,.391-.391,1.023,0,1.414,.195,.195,.451,.293,.707,.293s.512-.098,.707-.293l5.405-5.405,2.463,2.463c.506,.506,1.378,.14,1.383-.58l.042-6.382c.003-.446-.356-.806-.803-.803Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-arrow-up-right-and-arrow-down-left-from-center">
+        <path
+          d="M9.707,14.293c.391,.391,.391,1.023,0,1.414l-6.293,6.293h4.586c.553,0,1,.448,1,1s-.447,1-1,1H3c-1.654,0-3-1.346-3-3v-5c0-.552,.447-1,1-1s1,.448,1,1v4.586l6.293-6.293c.391-.391,1.023-.391,1.414,0ZM21,0h-5c-.553,0-1,.448-1,1s.447,1,1,1h4.586l-6.293,6.293c-.391,.391-.391,1.023,0,1.414,.195,.195,.451,.293,.707,.293s.512-.098,.707-.293l6.293-6.293v4.586c0,.552,.447,1,1,1s1-.448,1-1V3c0-1.654-1.346-3-3-3Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-exclamation">
+        <path
+          d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z"
+        ></path>
+        <path d="M12,5a1,1,0,0,0-1,1v8a1,1,0,0,0,2,0V6A1,1,0,0,0,12,5Z"></path>
+        <rect x="11" y="17" width="2" height="2" rx="1"></rect>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-sr-forward-fast">
+        <path
+          d="m23,1c-.552,0-1,.447-1,1v6.591l-6.184-4.848c-1.157-.851-2.671-.974-3.95-.325-1.284.65-2.056,1.892-2.073,3.326l-3.771-3.001c-1.175-.863-2.651-.984-3.949-.325-1.298.658-2.073,1.92-2.073,3.375v10.421c0,1.455.775,2.717,2.073,3.375,1.278.649,2.79.525,3.98-.348l3.74-2.983c.016,1.437.788,2.68,2.072,3.331.529.269,1.121.411,1.712.411.806,0,1.58-.254,2.263-.755l6.16-4.838v6.593c0,.553.448,1,1,1s1-.447,1-1V2c0-.553-.448-1-1-1Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-forward-fast">
+        <path
+          d="m23,1c-.552,0-1,.447-1,1v6.591l-6.184-4.848c-1.157-.851-2.671-.974-3.95-.325-1.284.65-2.056,1.892-2.073,3.326l-3.771-3.001c-1.175-.863-2.651-.984-3.949-.325-1.298.658-2.073,1.92-2.073,3.375v10.421c0,1.455.775,2.717,2.073,3.375,1.278.649,2.79.525,3.98-.348l3.74-2.983c.016,1.437.788,2.68,2.072,3.331.529.269,1.121.411,1.712.411.806,0,1.58-.254,2.263-.755l6.16-4.838v6.593c0,.553.448,1,1,1s1-.447,1-1V2c0-.553-.448-1-1-1Zm-1.755,12.458l-6.613,5.194c-.542.397-1.264.456-1.861.153-.621-.315-.978-.896-.978-1.593l-.002-2.032c0-.384-.221-.733-.566-.9-.138-.066-.286-.099-.434-.099-.222,0-.443.074-.624.219l-5.33,4.252c-.546.402-1.257.46-1.86.153-.621-.315-.978-.896-.978-1.592V6.793c0-.696.356-1.276.979-1.592.619-.315,1.298-.259,1.829.13l5.362,4.27c.301.239.713.287,1.057.118.346-.166.566-.517.566-.9v-2.025c0-.696.356-1.276.978-1.592.603-.306,1.315-.247,1.835.135l6.664,5.225c.463.341.729.865.729,1.439s-.266,1.099-.755,1.458Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-cursor-finger">
+        <path
+          d="M17.98,9.376,12,8.18V3.107A3.081,3.081,0,0,0,9.5.041,3,3,0,0,0,6,3V9.661L3.211,13.3a5.021,5.021,0,0,0,.249,6.794l2.4,2.425A5.036,5.036,0,0,0,9.414,24H17a5.006,5.006,0,0,0,5-5V14.279A5.013,5.013,0,0,0,17.98,9.376ZM20,19a3,3,0,0,1-3,3H9.414a3.022,3.022,0,0,1-2.134-.891l-2.4-2.428a3.03,3.03,0,0,1-.116-4.123L6,12.945V17a1,1,0,0,0,2,0V3a1,1,0,0,1,1.176-.985A1.082,1.082,0,0,1,10,3.107V9a1,1,0,0,0,.8.98l6.784,1.357A3.01,3.01,0,0,1,20,14.279Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-hourglass-end">
+        <path
+          d="M17,24H7.005a4.014,4.014,0,0,1-3.044-1.4,3.94,3.94,0,0,1-.917-3.158A12.522,12.522,0,0,1,7.445,12a12.522,12.522,0,0,1-4.4-7.444A3.94,3.94,0,0,1,3.961,1.4,4.014,4.014,0,0,1,7.005,0H17a4.017,4.017,0,0,1,3.044,1.4,3.943,3.943,0,0,1,.918,3.155A12.556,12.556,0,0,1,16.551,12a12.557,12.557,0,0,1,4.406,7.448,3.944,3.944,0,0,1-.918,3.156A4.017,4.017,0,0,1,17,24ZM17,2H7.005a2.015,2.015,0,0,0-1.528.7,1.921,1.921,0,0,0-.456,1.556c.376,2.5,1.924,4.84,4.6,6.957a1,1,0,0,1,0,1.568C6.945,14.9,5.4,17.242,5.021,19.741A1.921,1.921,0,0,0,5.477,21.3a2.015,2.015,0,0,0,1.528.7H17a2.014,2.014,0,0,0,1.528-.7,1.917,1.917,0,0,0,.456-1.554c-.373-2.487-1.92-4.829-4.6-6.962a1,1,0,0,1,0-1.564c2.681-2.133,4.228-4.475,4.6-6.963A1.916,1.916,0,0,0,18.523,2.7,2.014,2.014,0,0,0,17,2ZM15.681,20H8.318a1,1,0,0,1-.927-1.374,11.185,11.185,0,0,1,3.471-4.272l.518-.412a1,1,0,0,1,1.245,0l.509.406a11.3,11.3,0,0,1,3.473,4.276A1,1,0,0,1,15.681,20Zm-5.647-2h3.928A11.57,11.57,0,0,0,12,16,11.3,11.3,0,0,0,10.034,18Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-time-forward">
+        <path
+          d="m23 11a1 1 0 0 0 -1 1 10.034 10.034 0 1 1 -2.9-7.021.862.862 0 0 1 -.1.021h-3a1 1 0 0 0 0 2h3a3 3 0 0 0 3-3v-3a1 1 0 0 0 -2 0v2.065a11.994 11.994 0 1 0 4 8.935 1 1 0 0 0 -1-1z"
+        ></path>
+        <path
+          d="m12 6a1 1 0 0 0 -1 1v5a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414l-2.707-2.707v-4.586a1 1 0 0 0 -1-1z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-tachometer-fastest">
+        <path
+          d="M24,13a11.914,11.914,0,0,1-3.508,8.47,3.037,3.037,0,0,1-4.12.174l-1.026-.887a1,1,0,0,1,1.308-1.514l1.027.888a1.014,1.014,0,0,0,1.395-.075,10.044,10.044,0,0,0-.414-14.513A9.91,9.91,0,0,0,10.84,3.065,9.992,9.992,0,0,0,4.963,20.094a1,1,0,0,0,1.356.038l1.027-.889a1,1,0,1,1,1.308,1.514l-1.026.888a3.014,3.014,0,0,1-4.073-.13A12,12,0,1,1,24,13Zm-5.949,3.748a1,1,0,1,0,.8-1.832L13.988,12.78a2,2,0,1,0-.8,1.832Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-background">
+        <path
+          d="M19,0H5C2.24,0,0,2.24,0,5v14c0,2.76,2.24,5,5,5h14c2.76,0,5-2.24,5-5V5c0-2.76-2.24-5-5-5Zm3,14.59l-7.41,7.41h-4.17l11.59-11.59v4.17Zm-1.71-12.29L2.29,20.29c-.19-.39-.29-.83-.29-1.29v-2.59L16.41,2h2.59c.46,0,.9,.11,1.29,.29ZM2,9.41L9.41,2h4.17L2,13.59v-4.17ZM5,2h1.59L2,6.59v-1.59c0-1.65,1.35-3,3-3Zm-1.29,19.71L21.71,3.71c.19,.39,.29,.83,.29,1.29v2.59L7.59,22h-2.59c-.46,0-.9-.11-1.29-.29Zm15.29,.29h-1.59l4.59-4.59v1.59c0,1.65-1.35,3-3,3Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-angle-left">
+        <path
+          d="M17.17,24a1,1,0,0,1-.71-.29L8.29,15.54a5,5,0,0,1,0-7.08L16.46.29a1,1,0,1,1,1.42,1.42L9.71,9.88a3,3,0,0,0,0,4.24l8.17,8.17a1,1,0,0,1,0,1.42A1,1,0,0,1,17.17,24Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-sr-pause">
+        <path d="M6.5,0A3.5,3.5,0,0,0,3,3.5v17a3.5,3.5,0,0,0,7,0V3.5A3.5,3.5,0,0,0,6.5,0Z"></path>
+        <path
+          d="M17.5,0A3.5,3.5,0,0,0,14,3.5v17a3.5,3.5,0,0,0,7,0V3.5A3.5,3.5,0,0,0,17.5,0Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-sr-play">
+        <path
+          d="M20.492,7.969,10.954.975A5,5,0,0,0,3,5.005V19a4.994,4.994,0,0,0,7.954,4.03l9.538-6.994a5,5,0,0,0,0-8.062Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-rotate-left">
+        <path
+          d="M12,0c-2.991,0-5.813,1.113-8,3.078V1c0-.553-.448-1-1-1s-1,.447-1,1V5c0,1.103,.897,2,2,2h4c.552,0,1-.447,1-1s-.448-1-1-1h-3.13c1.876-1.913,4.422-3,7.13-3,5.514,0,10,4.486,10,10s-4.486,10-10,10c-5.21,0-9.492-3.908-9.959-9.09-.049-.55-.526-.956-1.086-.906C.405,12.054,0,12.54,.049,13.09c.561,6.22,5.699,10.91,11.951,10.91,6.617,0,12-5.383,12-12S18.617,0,12,0Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-rotate-right">
+        <path
+          d="M21.962,12.875A10.03,10.03,0,1,1,19.122,5H16a1,1,0,0,0-1,1h0a1,1,0,0,0,1,1h4.143A1.858,1.858,0,0,0,22,5.143V1a1,1,0,0,0-1-1h0a1,1,0,0,0-1,1V3.078A11.985,11.985,0,1,0,23.95,13.1a1.007,1.007,0,0,0-1-1.1h0A.982.982,0,0,0,21.962,12.875Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-resize">
+        <path
+          d="m19 0h-8a5.006 5.006 0 0 0 -5 5v6h-1a5.006 5.006 0 0 0 -5 5v3a5.006 5.006 0 0 0 5 5h3a5.006 5.006 0 0 0 5-5v-1h6a5.006 5.006 0 0 0 5-5v-8a5.006 5.006 0 0 0 -5-5zm-8 16a3 3 0 0 1 -3-3 3 3 0 0 1 3 3zm0 3a3 3 0 0 1 -3 3h-3a3 3 0 0 1 -3-3v-3a3 3 0 0 1 3-3h1a5.006 5.006 0 0 0 5 5zm11-6a3 3 0 0 1 -3 3h-6a4.969 4.969 0 0 0 -.833-2.753l5.833-5.833v2.586a1 1 0 0 0 2 0v-3a3 3 0 0 0 -3-3h-3a1 1 0 0 0 0 2h2.586l-5.833 5.833a4.969 4.969 0 0 0 -2.753-.833v-6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-tool-crop">
+        <path
+          d="M23,18H20V9a5.006,5.006,0,0,0-5-5H6V1A1,1,0,0,0,4,1V4H1A1,1,0,0,0,1,6H4v9a5.006,5.006,0,0,0,5,5h9v3a1,1,0,0,0,2,0V20h3a1,1,0,0,0,0-2ZM9,18a3,3,0,0,1-3-3V6h9a3,3,0,0,1,3,3v9Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-compress">
+        <path
+          d="M7,0A1,1,0,0,0,6,1V3A3,3,0,0,1,3,6H1A1,1,0,0,0,1,8H3A5.006,5.006,0,0,0,8,3V1A1,1,0,0,0,7,0Z"
+        ></path>
+        <path
+          d="M23,16H21a5.006,5.006,0,0,0-5,5v2a1,1,0,0,0,2,0V21a3,3,0,0,1,3-3h2a1,1,0,0,0,0-2Z"
+        ></path>
+        <path
+          d="M21,8h2a1,1,0,0,0,0-2H21a3,3,0,0,1-3-3V1a1,1,0,0,0-2,0V3A5.006,5.006,0,0,0,21,8Z"
+        ></path>
+        <path
+          d="M3,16H1a1,1,0,0,0,0,2H3a3,3,0,0,1,3,3v2a1,1,0,0,0,2,0V21A5.006,5.006,0,0,0,3,16Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-expand">
+        <path
+          d="M19,24H17a1,1,0,0,1,0-2h2a3,3,0,0,0,3-3V17a1,1,0,0,1,2,0v2A5.006,5.006,0,0,1,19,24Z"
+        ></path>
+        <path
+          d="M1,8A1,1,0,0,1,0,7V5A5.006,5.006,0,0,1,5,0H7A1,1,0,0,1,7,2H5A3,3,0,0,0,2,5V7A1,1,0,0,1,1,8Z"
+        ></path>
+        <path
+          d="M7,24H5a5.006,5.006,0,0,1-5-5V17a1,1,0,0,1,2,0v2a3,3,0,0,0,3,3H7a1,1,0,0,1,0,2Z"
+        ></path>
+        <path
+          d="M23,8a1,1,0,0,1-1-1V5a3,3,0,0,0-3-3H17a1,1,0,0,1,0-2h2a5.006,5.006,0,0,1,5,5V7A1,1,0,0,1,23,8Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-menu-dots-vertical">
+        <circle cx="12" cy="2" r="2"></circle>
+        <circle cx="12" cy="12" r="2"></circle>
+        <circle cx="12" cy="22" r="2"></circle>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-refresh">
+        <path
+          d="M12,2a10.032,10.032,0,0,1,7.122,3H16a1,1,0,0,0-1,1h0a1,1,0,0,0,1,1h4.143A1.858,1.858,0,0,0,22,5.143V1a1,1,0,0,0-1-1h0a1,1,0,0,0-1,1V3.078A11.981,11.981,0,0,0,.05,10.9a1.007,1.007,0,0,0,1,1.1h0a.982.982,0,0,0,.989-.878A10.014,10.014,0,0,1,12,2Z"
+        ></path>
+        <path
+          d="M22.951,12a.982.982,0,0,0-.989.878A9.986,9.986,0,0,1,4.878,19H8a1,1,0,0,0,1-1H9a1,1,0,0,0-1-1H3.857A1.856,1.856,0,0,0,2,18.857V23a1,1,0,0,0,1,1H3a1,1,0,0,0,1-1V20.922A11.981,11.981,0,0,0,23.95,13.1a1.007,1.007,0,0,0-1-1.1Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-volume-mute">
+        <path
+          d="m13.644.418c-.228-.19-.529-.268-.821-.215-3.001.555-5.754,2.302-7.554,4.794h-.271C2.241,4.998-.002,7.241-.002,9.998v4.005C-.002,16.76,2.241,19.003,4.998,19.003h.271c1.802,2.495,4.555,4.243,7.554,4.794.06.011.121.017.181.017.232,0,.459-.081.64-.231.228-.19.36-.472.36-.769V1.187c0-.297-.131-.579-.36-.769Zm-1.64,21.117c-2.03-.646-3.851-1.954-5.113-3.703l-.299-.415c-.188-.26-.489-.415-.811-.415h-.782c-1.654,0-3-1.346-3-3v-4.005c0-1.654,1.346-3,3-3h.782c.321,0,.623-.154.811-.415l.299-.415c1.261-1.747,3.083-3.054,5.114-3.702v19.068Zm11.729-7.242c.391.391.391,1.023,0,1.414-.195.195-.451.293-.707.293s-.512-.098-.707-.293l-2.293-2.293-2.293,2.293c-.195.195-.451.293-.707.293s-.512-.098-.707-.293c-.391-.391-.391-1.023,0-1.414l2.293-2.293-2.293-2.293c-.391-.391-.391-1.023,0-1.414s1.023-.391,1.414,0l2.293,2.293,2.293-2.293c.391-.391,1.023-.391,1.414,0s.391,1.023,0,1.414l-2.293,2.293,2.293,2.293Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-volume">
+        <path
+          d="M20.807,4.29a1,1,0,0,0-1.415,1.415,8.913,8.913,0,0,1,0,12.59,1,1,0,0,0,1.415,1.415A10.916,10.916,0,0,0,20.807,4.29Z"
+        ></path>
+        <path
+          d="M18.1,7.291A1,1,0,0,0,16.68,8.706a4.662,4.662,0,0,1,0,6.588A1,1,0,0,0,18.1,16.709,6.666,6.666,0,0,0,18.1,7.291Z"
+        ></path>
+        <path
+          d="M13.82.2A12.054,12.054,0,0,0,6.266,5H5a5.008,5.008,0,0,0-5,5v4a5.008,5.008,0,0,0,5,5H6.266A12.059,12.059,0,0,0,13.82,23.8a.917.917,0,0,0,.181.017,1,1,0,0,0,1-1V1.186A1,1,0,0,0,13.82.2ZM13,21.535a10.083,10.083,0,0,1-5.371-4.08A1,1,0,0,0,6.792,17H5a3,3,0,0,1-3-3V10A3,3,0,0,1,5,7h1.8a1,1,0,0,0,.837-.453A10.079,10.079,0,0,1,13,2.465Z"
+        ></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-unlock">
+        <path
+          d="M17,8H7V7a5,5,0,0,1,9.375-2.422,1,1,0,0,0,1.749-.971A7,7,0,0,0,5,7V8.424A5,5,0,0,0,2,13v6a5.006,5.006,0,0,0,5,5H17a5.006,5.006,0,0,0,5-5V13A5.006,5.006,0,0,0,17,8Zm3,11a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V13a3,3,0,0,1,3-3H17a3,3,0,0,1,3,3Z"
+        ></path>
+        <path d="M12,14a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V15A1,1,0,0,0,12,14Z"></path>
+      </symbol>
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-lock">
+        <path
+          d="M19,8.424V7A7,7,0,0,0,5,7V8.424A5,5,0,0,0,2,13v6a5.006,5.006,0,0,0,5,5H17a5.006,5.006,0,0,0,5-5V13A5,5,0,0,0,19,8.424ZM7,7A5,5,0,0,1,17,7V8H7ZM20,19a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V13a3,3,0,0,1,3-3H17a3,3,0,0,1,3,3Z"
+        ></path>
+        <path d="M12,14a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V15A1,1,0,0,0,12,14Z"></path>
+      </symbol>
+
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-high-definition">
+        <path
+          d="m19,2H5C2.243,2,0,4.243,0,7v10c0,2.757,2.243,5,5,5h14c2.757,0,5-2.243,5-5V7c0-2.757-2.243-5-5-5Zm3,15c0,1.654-1.346,3-3,3H5c-1.654,0-3-1.346-3-3V7c0-1.654,1.346-3,3-3h14c1.654,0,3,1.346,3,3v10Zm-11-9v8c0,.552-.448,1-1,1s-1-.448-1-1v-3h-3v3c0,.552-.448,1-1,1s-1-.448-1-1v-8c0-.552.448-1,1-1s1,.448,1,1v3h3v-3c0-.552.448-1,1-1s1,.448,1,1Zm5-1h-1c-1.103,0-2,.897-2,2v6c0,1.103.897,2,2,2h1c2.206,0,4-1.794,4-4v-2c0-2.206-1.794-4-4-4Zm2,6c0,1.103-.897,2-2,2h-1s0-6,0-6h1c1.103,0,2,.897,2,2v2Z"
+        ></path>
+      </symbol>
+
+      <symbol viewBox="0 0 24 24" id="fi fi-rr-brightness-low">
+        <path
+          d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5Zm0-8c-1.65,0-3,1.35-3,3s1.35,3,3,3,3-1.35,3-3-1.35-3-3-3Zm0-5c.83,0,1.5-.67,1.5-1.5s-.67-1.5-1.5-1.5-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5Zm0,19c.83,0,1.5-.67,1.5-1.5s-.67-1.5-1.5-1.5-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5ZM4,12c0-.83-.67-1.5-1.5-1.5s-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5,1.5-.67,1.5-1.5Zm19,0c0-.83-.67-1.5-1.5-1.5s-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5,1.5-.67,1.5-1.5Zm-4.5-5c.83,0,1.5-.67,1.5-1.5s-.67-1.5-1.5-1.5-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5ZM5.5,20c.83,0,1.5-.67,1.5-1.5s-.67-1.5-1.5-1.5-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5Zm0-13c.83,0,1.5-.67,1.5-1.5s-.67-1.5-1.5-1.5-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5Zm14.5,11.5c0-.83-.67-1.5-1.5-1.5s-1.5,.67-1.5,1.5,.67,1.5,1.5,1.5,1.5-.67,1.5-1.5Z"
+        ></path>
+      </symbol>
+    </svg>
+
+    <div id="app" v-ref="app" @vue:mounted="mounted">
+      <div class="div_opnxihchj7bt1ph">
+        <canvas id="canvas" :style="{ display : ui.background.isActive ? '' : 'none' }"></canvas>
+        <video id="video" src="" style="object-fit: contain"></video>
+      </div>
+
+      <div id="control" class="div_3cpfarn2f85vyoh">
+        <div class="div_S2OWmrFPAHLAweO flex-center">
+          <span
+            style="width: 100px; height: 100px; position: absolute"
+            :style="{ display : isLoading ? 'flex' : 'none' }"
+          >
+            <div class="div_CQM4abRCwN455Mw" style="--color: #ffffff; --pixel: 100px"></div>
+          </span>
+          <span
+            id="spanError"
+            class="span_XGbxfirIjc0LJXf"
+            style="position: absolute; display: none"
+          >
+            <svg width="24" height="24">
+              <use href="#fi fi-rr-exclamation"></use>
+            </svg>
+          </span>
+        </div>
+        <div id="controlNotification" class="div_S2OWmrFPAHLAweO" style="display: flex">
+          <div id="controlNotificationTouch" class="span_RPtji863vU2iJtm" style="display: none">
+            <small class="flex-center">
+              <svg width="24" height="24">
+                <use href="#fi fi-sr-forward-fast"></use>
+              </svg>
+            </small>
+            <span>2x</span>
+          </div>
+
+          <div
+            id="controlNotificationTouchVolume" 
+            class="span_RPtji863vU2iJtm"
+            style="display: none"
+          ></div>
+        </div>
+        <label id="divTap" class="label_myh59oz6lsyldmc" data-status="true">
+          <input id="inputToggleControl" type="checkbox" checked />
+          <div data-action="event-left"></div>
+          <div data-action="event-center"></div>
+          <div data-action="event-right"></div>
+        </label>
+        <div id="controlView" class="div_9s7jtd1s87x198k">
+          <div
+            class="div_30iEfg1Tp8Z9Sfe"
+            data-control=""
+            style="padding: 10px; gap: 10px; margin-bottom: 10px"
+          >
+            <label class="button_dgli7ygzpy8r4o1 label_n7n9k0firocrrig tag_dye9tkyn5fa1q8k">
+              <input
+                id="inputCheckboxLock"
+                type="checkbox"
+                class="checkbox-toggle-lock"
+                style="display: none"
+              />
+              <small class="checked-off">
+                <svg width="24" height="24">
+                  <use href="#fi fi-rr-lock"></use>
+                </svg>
+              </small>
+              <small class="checked-on">
+                <svg width="24" height="24">
+                  <use href="#fi fi-rr-unlock"></use>
+                </svg>
+              </small>
+            </label>
+            <div class="div_KYTTm4XcCkVvAmy" style="text-align: center">
+              <div class="div_swkEBnnVsXvSjjL" style="display: none;">
+                <p id="videoTitle">Title</p>
+                <span id="videoDescription">Description</span>
+              </div>
+            </div>
+            <button
+              id="openOptions"
+              class="button_dgli7ygzpy8r4o1 checkbox-lock-hidden tag_dye9tkyn5fa1q8k"
+            >
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-menu-dots-vertical"></use>
+              </svg>
+            </button>
+          </div>
+          <div
+            class="div_fqntqCwolU7nS2I checkbox-lock-hidden"
+            data-control=""
+            style="padding: 0 3rem"
+          >
+            <div
+              style="position: relative; height: min(100%, 400px); padding: 1rem 0; display: none"
+            >
+              <div class="div_iVl4urAy8xQ7zk6 slider-vertical" style="height: 100%; width: 3px">
+                <span :style="{ height: brightness + '%' }"></span>
+
+                <input type="range" min="0" max="100" @input="setBrightness($event.target.value)" />
+              </div>
+            </div>
+
+            <button id="seekLeft" style="display: none">
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-rotate-left"></use>
+              </svg>
+            </button>
+            <button
+              class="button_0Y7K28nawg1NzgP"
+              :style="{ visibility: isLoading ? 'hidden' : '' }"
+              @click="togglePlayPause"
+            >
+              <svg width="24" height="24">
+                <use v-show="isPaused" href="#fi fi-sr-play"></use>
+                <use v-show="!isPaused" href="#fi fi-sr-pause"></use>
+              </svg>
+            </button>
+            <button id="seekRight" style="display: none">
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-rotate-right"></use>
+              </svg>
+            </button>
+            <div
+              class="input"
+              style="position: relative; height: min(100%, 400px); padding: 1rem 0; display: none"
+            >
+              <div class="div_iVl4urAy8xQ7zk6 slider-vertical" style="height: 100%; width: 3px">
+                <span :style="{ height: volume + '%' }"></span>
+                <input type="range" min="0" max="100" @input="setVolume($event.target.value)" />
+              </div>
+            </div>
+          </div>
+          <div class="div_n7o81w429b8kty7" data-control="">
+            <div class="div_s75qw16xjga5pz6">
+              <div class="div_iVl4urAy8xQ7zk6 slider-horizontal">
+                <span :style="{ width : percentage(currentTime, duration) + '%' }"></span>
+                <input
+                  id="durationInput"
+                  type="range"
+                  class="checkbox-lock-disable"
+                  data-status="false"
+                  min="0"
+                  value="0"
+                  max="0"
+                  style="height: 40px"
+                />
+              </div>
+            </div>
+
+            <div class="div_4R38EJRezM03FeL">
+              <div style="display: flex; gap: 0.5rem">
+                <div
+                  id="container-times"
+                  class="div_y5oh9e1polgfu2m tag_dye9tkyn5fa1q8k tag-wrapper hide-children"
+                  style="padding: 0.5rem"
+                  @click="showRemainingTime=!showRemainingTime"
+                >
+                  <div :style="{ display : showRemainingTime ? 'contents' : 'none' }">
+                    <div id="remainingTime" class="div_quGYBx1MHxIWCd6">
+                      <span id="remainingTimeText">{{ timer(duration - currentTime) }}</span>
+                    </div>
+                    <hr class="hr_jccist8k9xr9ktn checkbox-lock-rhidden" />
+                  </div>
+
+                  <div :style="{ display : !showRemainingTime ? 'contents' : 'none' }">
+                    <div id="currentTime" class="div_quGYBx1MHxIWCd6">
+                      <span id="currentTimeText">{{ timer(currentTime) }}</span>
+                    </div>
+                    <hr class="hr_jccist8k9xr9ktn checkbox-lock-rhidden" />
+                  </div>
+
+                  <div id="duration" class="div_quGYBx1MHxIWCd6">
+                    <span id="durationText">{{ timer(duration) }}</span>
+                  </div>
+                </div>
+
+                <button
+                  class="button_dgli7ygzpy8r4o1 button_ArxpE8UbBze4uwS tag_dye9tkyn5fa1q8k"
+                  data-object-fit="contain"
+                  onclick="mediaPlayer.video.currentTime += 85"
+                >
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-forward-fast"></use>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="div_y5oh9e1polgfu2m checkbox-lock-hidden tag_dye9tkyn5fa1q8k">
+                <button
+                  class="button_dgli7ygzpy8r4o1 button_ArxpE8UbBze4uwS"
+                  @click="toggleFulscreen"
+                >
+                  <svg width="24" height="24">
+                    <use
+                      v-show="isFullscreen"
+                      href="#fi fi-rr-down-left-and-up-right-to-center"
+                    ></use>
+                    <use
+                      v-show="!isFullscreen"
+                      href="#fi fi-rr-arrow-up-right-and-arrow-down-left-from-center"
+                    ></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="div-popover" class="div_lh6NqXMBMnAkhJ" style="display: none">
+        <div class="div_0wgv7xmg98Vw2IY" style="margin-bottom: auto">
+          <div class="div_9kll7qq6kw7jki8">
+            <div id="divOptionsButtons" class="div_5lgw0Me5IocTECr">
+              <button data-option-action="background">
+                <small>
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-background"></use>
+                  </svg>
+                </small>
+                <span>Fondo</span>
+              </button>
+              <button data-option-action="qualities" v-show="ui.quality.options.length">
+                <small>
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-high-definition"></use>
+                  </svg>
+                </small>
+                <span>Calidad</span>
+              </button>
+              <button data-option-action="speed">
+                <small>
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-tachometer-fastest"></use>
+                  </svg>
+                </small>
+                <span>Velocidad</span>
+              </button>
+              <button data-option-action="jumpTime">
+                <small>
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-time-forward"></use>
+                  </svg>
+                </small>
+                <span>Tiempo de salto</span>
+              </button>
+              <button data-option-action="hideControl">
+                <small>
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-hourglass-end"></use>
+                  </svg>
+                </small>
+                <span>Ocultar controles</span>
+              </button>
+              <button data-option-action="events">
+                <small>
+                  <svg width="24" height="24">
+                    <use href="#fi fi-rr-cursor-finger"></use>
+                  </svg>
+                </small>
+                <span>Eventos</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="div-popover-2" class="div_lh6NqXMBMnAkhJ" style="display: none">
+        <div
+          id="option-from-background"
+          class="div_0wgv7xmg98Vw2IY"
+          style="display: none; width: min(100%, 400px)"
+        >
+          <div class="div_pvsfzyejk5nfu4l" style="justify-content: space-between">
+            <div class="div_pvsfzyejk5nfu4l" style="padding: 0">
+              <button class="button_dgli7ygzpy8r4o1" data-hide-popover>
+                <svg width="24" height="24">
+                  <use href="#fi fi-rr-angle-left"></use>
+                </svg>
+              </button>
+              <h3>Fondo</h3>
+            </div>
+            <label class="app-label-input-checkbox">
+              <input
+                id="background-input-checkbox"
+                type="checkbox"
+                v-model="ui.background.isActive"
+              />
+              <span></span>
+            </label>
+          </div>
+          <div class="div_9kll7qq6kw7jki8">
+            <div class="div_s8gvst6gk81pegl">
+              <form
+                id="background-form-input"
+                class="div_tAIppFChF7u7CjX"
+                onchange="canvas.style.filter = `blur(${event.currentTarget.key.value}px)`"
+              >
+                <template v-for="background in ui.background.options">
+                  <label>
+                    <input
+                      type="radio"
+                      name="key"
+                      :value="background"
+                      :checked="background == ui.background.value"
+                    />
+                    <span>{{ background }}px</span>
+                  </label>
+                </template>
+              </form>
+
+              <div class="div_ccWrXBhzP0hqhl5" style="display: none">
+                <div class="div_iVl4urAy8xQ7zk6 slider-horizontal">
+                  <span id="background-span-range"></span>
+                  <input id="background-input-range" type="range" min="0" value="150" max="500" />
+                </div>
+                <span id="background-span-text" style="width: 60px; text-align: center">
+                  150px
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="option-from-qualities"
+          class="div_0wgv7xmg98Vw2IY"
+          style="display: none; width: min(100%, 400px)"
+        >
+          <div class="div_pvsfzyejk5nfu4l">
+            <button class="button_dgli7ygzpy8r4o1" data-hide-popover>
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-angle-left"></use>
+              </svg>
+            </button>
+            <h3>Calidades</h3>
+          </div>
+          <div class="div_9kll7qq6kw7jki8">
+            <div class="div_s8gvst6gk81pegl">
+              <form
+                id="qualities-form-input"
+                class="div_tAIppFChF7u7CjX"
+                @change="ui.quality.value = +$event.target.value"
+                onchange="mediaPlayer.changeQuality(event.target.value)"
+              >
+                <template v-for="quality in ui.quality.options">
+                  <label>
+                    <input
+                      type="radio"
+                      name="key"
+                      :value="quality.value"
+                      :checked="quality.value == ui.quality.value"
+                    />
+                    <span>{{ quality.label }}</span>
+                  </label>
+                </template>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="option-from-speed"
+          class="div_0wgv7xmg98Vw2IY"
+          style="display: none; width: min(100%, 400px)"
+        >
+          <div class="div_pvsfzyejk5nfu4l">
+            <button class="button_dgli7ygzpy8r4o1" data-hide-popover>
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-angle-left"></use>
+              </svg>
+            </button>
+            <h3>Velocidad</h3>
+          </div>
+          <div class="div_9kll7qq6kw7jki8">
+            <div class="div_s8gvst6gk81pegl">
+              <form
+                id="speed-form-input"
+                class="div_tAIppFChF7u7CjX"
+                onchange="video.playbackRate = parseFloat(event.currentTarget.key.value)"
+              >
+                <template v-for="speed in ui.speed.options">
+                  <label>
+                    <input
+                      type="radio"
+                      name="key"
+                      :value="speed"
+                      :checked="speed == ui.speed.value"
+                    />
+                    <span>{{ speed }}x</span>
+                  </label>
+                </template>
+              </form>
+
+              <div class="div_ccWrXBhzP0hqhl5" style="display: none">
+                <div class="div_iVl4urAy8xQ7zk6 slider-horizontal">
+                  <span id="speed-span-range"></span>
+                  <input
+                    id="speed-input-range"
+                    type="range"
+                    step="0.1"
+                    min="0"
+                    value="1"
+                    max="15"
+                  />
+                </div>
+                <span id="speed-span-text" style="width: 60px; text-align: center">1x</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="option-from-jumpTime"
+          class="div_0wgv7xmg98Vw2IY"
+          style="display: none; width: min(100%, 400px)"
+        >
+          <div class="div_pvsfzyejk5nfu4l">
+            <button class="button_dgli7ygzpy8r4o1" data-hide-popover>
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-angle-left"></use>
+              </svg>
+            </button>
+            <h3>Tiempo de salto</h3>
+          </div>
+          <div class="div_9kll7qq6kw7jki8">
+            <div class="div_s8gvst6gk81pegl">
+              <form
+                id="jumpTime-form-input"
+                class="div_tAIppFChF7u7CjX"
+                @change="ui.seek.value = +$event.target.value"
+              >
+                <template v-for="seek in ui.seek.options">
+                  <label>
+                    <input type="radio" name="key" :value="seek" :checked="seek == ui.seek.value" />
+                    <span>{{ seek }}s</span>
+                  </label>
+                </template>
+              </form>
+
+              <div class="div_ccWrXBhzP0hqhl5" style="display: none">
+                <div class="div_iVl4urAy8xQ7zk6 slider-horizontal">
+                  <span id="jumpTime-span-range"></span>
+                  <input id="jumpTime-input-range" type="range" min="0" value="10" max="300" />
+                </div>
+                <span id="jumpTime-span-text" style="width: 60px; text-align: center">10s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="option-from-hideControl"
+          class="div_0wgv7xmg98Vw2IY"
+          style="display: none; width: min(100%, 400px)"
+        >
+          <div class="div_pvsfzyejk5nfu4l" style="justify-content: space-between">
+            <div class="div_pvsfzyejk5nfu4l" style="padding: 0">
+              <button class="button_dgli7ygzpy8r4o1" data-hide-popover>
+                <svg width="24" height="24">
+                  <use href="#fi fi-rr-angle-left"></use>
+                </svg>
+              </button>
+              <h3>Ocultar Control</h3>
+            </div>
+            <label class="app-label-input-checkbox">
+              <input
+                id="hideControl-input-checkbox"
+                type="checkbox"
+                v-model="ui.controls.hideInIsActive"
+              />
+              <span></span>
+            </label>
+          </div>
+          <div class="div_9kll7qq6kw7jki8">
+            <div class="div_s8gvst6gk81pegl">
+              <form
+                id="hideControl-form-input"
+                class="div_tAIppFChF7u7CjX"
+                @change="ui.controls.hideInValue = +$event.target.value"
+              >
+                <template v-for="hideIn in ui.controls.hideInOptions">
+                  <label>
+                    <input
+                      type="radio"
+                      name="key"
+                      :value="hideIn"
+                      :checked="hideIn == ui.controls.hideInValue"
+                    />
+                    <span>{{ hideIn }}s</span>
+                  </label>
+                </template>
+              </form>
+
+              <div class="div_ccWrXBhzP0hqhl5" style="display: none">
+                <div class="div_iVl4urAy8xQ7zk6 slider-horizontal">
+                  <span id="hideControl-span-range"></span>
+                  <input id="hideControl-input-range" type="range" min="1" value="3" max="30" />
+                </div>
+                <span id="hideControl-span-text" style="width: 60px; text-align: center">3s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="option-from-events"
+          class="div_0wgv7xmg98Vw2IY"
+          style="display: none; width: min(100%, 400px)"
+        >
+          <div class="div_pvsfzyejk5nfu4l">
+            <button class="button_dgli7ygzpy8r4o1" data-hide-popover>
+              <svg width="24" height="24">
+                <use href="#fi fi-rr-angle-left"></use>
+              </svg>
+            </button>
+            <h3>Eventos</h3>
+          </div>
+          <div class="div_9kll7qq6kw7jki8">
+            <div class="div_s8gvst6gk81pegl" style="gap: 0px">
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>doble click izquierdo:</span>
+                  <p>Retroceder el tiempo en (n segundos)</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-dblclickLeft" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>doble click derecho:</span>
+                  <p>Avanzar el tiempo en (n segundos)</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-dblclickRight" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>doble click central:</span>
+                  <p>Salir/Entrar en pantalla completa</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-dblclickCenter" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>mantener presionado:</span>
+                  <p>Aumentar velocidad en 2x</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-longpress" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>pellizcar:</span>
+                  <p>Ajustar pantalla</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-pinch" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>Deslizamiento izquierdo:</span>
+                  <p>Subir/Bajar brillo</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-swipe-left" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+
+              <label class="label_0n7nivcq4t84jv9">
+                <div class="div_he2n78bbqmcle0e">
+                  <span>Deslizamiento derecho:</span>
+                  <p>Subir/Bajar volumen</p>
+                </div>
+                <div class="app-label-input-checkbox">
+                  <input id="input-event-swipe-right" type="checkbox" checked />
+                  <span></span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <script src="./media-player.js" type="module"></script>
+  </body>
+</html>
