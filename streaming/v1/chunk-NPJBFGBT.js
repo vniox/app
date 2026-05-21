@@ -1,0 +1,1 @@
+var t=class{static index=0;static resolves={};static exists(){return!!window?.Android}static bridge(s){let i=window?.Android;i&&typeof s=="function"&&s(i)}static promise(s,...i){return new Promise(e=>{let n=this.index++;this.resolves[n]=e,window?.Android?.[s]?.(n,...i)})}static resolve(s,i){this.resolves[s]?.(i)}};export{t as a};
